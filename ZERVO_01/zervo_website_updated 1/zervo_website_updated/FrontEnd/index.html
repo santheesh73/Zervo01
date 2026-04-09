@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <link href="https://fonts.googleapis.com" rel="preconnect" />
+  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+  <link href="https://www.gstatic.com" rel="preconnect" crossorigin="" />
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Manrope:wght@400;500;600;700&amp;display=swap"
+    rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+    rel="stylesheet" />
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "surface-bright": "#f5fced",
+            "secondary": "#964900",
+            "on-tertiary-container": "#d6ffa5",
+            "secondary-container": "#fc820c",
+            "background": "#f5fced",
+            "on-surface": "#171d14",
+            "secondary-fixed-dim": "#ffb786",
+            "on-primary-container": "#cbffc2",
+            "error": "#ba1a1a",
+            "on-tertiary-fixed": "#0f2000",
+            "primary": "#0d631b",
+            "secondary-fixed": "#ffdcc6",
+            "on-tertiary-fixed-variant": "#2e4f00",
+            "primary-fixed-dim": "#88d982",
+            "surface-container-low": "#eff6e7",
+            "primary-container": "#2e7d32",
+            "tertiary-fixed-dim": "#9ed75b",
+            "outline": "#707a6c",
+            "surface-container-highest": "#dee5d6",
+            "surface-variant": "#dee5d6",
+            "on-primary-fixed": "#002204",
+            "on-error": "#ffffff",
+            "tertiary": "#386000",
+            "on-error-container": "#93000a",
+            "on-surface-variant": "#40493d",
+            "inverse-on-surface": "#ecf3e4",
+            "on-primary-fixed-variant": "#005312",
+            "tertiary-fixed": "#b9f474",
+            "on-secondary": "#ffffff",
+            "primary-fixed": "#a3f69c",
+            "on-primary": "#ffffff",
+            "surface": "#f5fced",
+            "surface-container-lowest": "#ffffff",
+            "tertiary-container": "#4a7b00",
+            "inverse-primary": "#88d982",
+            "surface-container": "#e9f0e1",
+            "on-background": "#171d14",
+            "surface-dim": "#d5dcce",
+            "outline-variant": "#bfcaba",
+            "on-tertiary": "#ffffff",
+            "inverse-surface": "#2c3228",
+            "on-secondary-container": "#5e2c00",
+            "surface-tint": "#1b6d24",
+            "error-container": "#ffdad6",
+            "surface-container-high": "#e3ebdc",
+            "on-secondary-fixed": "#311300",
+            "on-secondary-fixed-variant": "#723600"
+          },
+          fontFamily: {
+            "headline": ["Plus Jakarta Sans"],
+            "body": ["Manrope"],
+            "label": ["Manrope"]
+          },
+          borderRadius: { "DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px" },
+        },
+      },
+    }
+  </script>
+  <style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    }
+
+    .tonal-shift-surface-container-low {
+      background-color: rgba(239, 246, 231, 0.8);
+    }
+
+    .text-shadow-sm {
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+  </style>
+</head>
+
+<body class="bg-surface font-body text-on-surface selection:bg-primary-fixed-dim">
+  <!-- TopNavBar -->
+  <nav class="fixed top-0 w-full z-50 bg-surface/80 dark:bg-slate-900/80 backdrop-blur-xl shadow-sm dark:shadow-none">
+    <div class="flex justify-between items-center px-8 py-4 max-w-screen-2xl mx-auto">
+      <a href="index.html" class="text-2xl font-black text-green-900 dark:text-green-100 tracking-tighter font-headline inline-block hover:opacity-80">ZERVO</a>
+      <a href="login.html"
+        class="bg-primary text-on-primary px-8 py-3 rounded-full font-bold hover:scale-95 duration-150 ease-in-out transition-all shadow-md inline-block">
+        Donate Now
+      </a>
+    </div>
+  </nav>
+  <main class="pt-24">
+    <!-- Hero Section -->
+    <section class="px-8 max-w-screen-2xl mx-auto py-8 md:py-12">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+        <div class="lg:col-span-7 space-y-8">
+          <h1
+            class="font-headline font-extrabold text-5xl md:text-7xl lg:text-8xl tracking-tighter text-on-surface leading-[0.9]">
+            Zero <span class="text-primary italic">Waste,</span><br />Zero Hunger
+          </h1>
+          <p class="text-xl md:text-2xl text-on-surface-variant max-w-2xl font-medium leading-relaxed">
+            We bridge the gap between surplus and scarcity. ZERVO redistributes high-quality food from local businesses
+            to neighbors in need, cultivating community resilience.
+          </p>
+          <div class="flex flex-wrap gap-4 pt-4">
+            <button
+              onclick="window.location.href='login.html'"
+              class="bg-primary text-on-primary px-10 py-5 rounded-xl text-lg font-bold hover:scale-105 transition-transform flex items-center gap-2 cursor-pointer">
+              Join the Mission
+              <span class="material-symbols-outlined">arrow_forward</span>
+            </button>
+          </div>
+        </div>
+        <div class="lg:col-span-5 relative">
+          <div
+            class="aspect-[4/5] rounded-xl overflow-hidden shadow-2xl rotate-2 hover:rotate-0 transition-transform duration-500">
+            <img alt="Community food sharing" class="w-full h-full object-cover"
+              data-alt="Vibrant community scene of diverse volunteers sharing fresh organic produce at a sunny neighborhood food distribution hub"
+              src="https://lh3.googleusercontent.com/aida-public/AB6AXuAFTKYsVfBLc8RjdgQUiWbD_4z4w6VUHbU6apD-bzEZoSy2PD11ruJ4X01flK6lhX64f8IWem8Nzwwl2QSvGy3ZyQBhDJoeOsRs93eY-UgL1T3cL0CaOl3VyB1NB8DN48NRn8v_6lVOlp9QSO9hjJFNJHOO37WPgvJ_X4xfNs-ZRXTFTuQn5pEvq-UwW5fE9_qzIo834-oY4Sv5YUG7q3zXFt5AyZZSXJWOtMta21W56nXpznvEjV4M-L9H-ITpHzzZ96zK2ofKwEY" />
+          </div>
+          <!-- Overlapping Card -->
+        </div>
+      </div>
+    </section>
+    <!-- Impact Stats -->
+    <section class="bg-surface-container-low py-24 rounded-xl mx-8">
+      <div class="max-w-screen-xl mx-auto px-8">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-16 text-center">
+          <div class="space-y-2">
+            <div id="stat-meals" class="text-6xl md:text-7xl font-headline font-black text-primary tracking-tighter transition-all duration-700">0</div>
+            <div class="text-lg font-bold text-on-surface-variant uppercase tracking-widest">Meals Served</div>
+          </div>
+          <div class="space-y-2">
+            <div id="stat-tons" class="text-6xl md:text-7xl font-headline font-black text-secondary tracking-tighter transition-all duration-700">0</div>
+            <div class="text-lg font-bold text-on-surface-variant uppercase tracking-widest">Volunteer Delivered</div>
+          </div>
+          <div class="space-y-2">
+            <div id="stat-partners" class="text-6xl md:text-7xl font-headline font-black text-tertiary tracking-tighter transition-all duration-700">0</div>
+            <div class="text-lg font-bold text-on-surface-variant uppercase tracking-widest">Active Volunteers</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  <script type="module">
+    import { initializeApp }      from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import { getDatabase, ref, get } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+
+    const firebaseConfig = {
+      apiKey:            "AIzaSyB8ynZXXUV7MJLbZNd42CEUpZDRWXoHM30",
+      authDomain:        "zervo-9585.firebaseapp.com",
+      projectId:         "zervo-9585",
+      storageBucket:     "zervo-9585.firebasestorage.app",
+      messagingSenderId: "892339796416",
+      appId:             "1:892339796416:web:f9810482ae1c40be6b3025",
+      databaseURL:       "https://zervo-9585-default-rtdb.firebaseio.com"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db  = getDatabase(app);
+
+    // Animate a number counting up from 0 to target
+    function animateCount(el, target, suffix = '') {
+      if (target === 0) { el.textContent = '0' + suffix; return; }
+      const duration = 1600;
+      const steps    = 60;
+      const increment = target / steps;
+      let current = 0;
+      let step    = 0;
+      const timer = setInterval(() => {
+        step++;
+        current = Math.min(Math.round(increment * step), target);
+        el.textContent = current.toLocaleString() + suffix;
+        if (step >= steps) clearInterval(timer);
+      }, duration / steps);
+    }
+
+    async function loadStats() {
+      try {
+        // --- food_listings: meals served ---
+        const foodSnap = await get(ref(db, 'food_listings'));
+        let meals = 0;
+
+        if (foodSnap.exists()) {
+          const listings = Object.values(foodSnap.val());
+          const completed = listings.filter(f => f.status === 'completed');
+          const all       = listings;
+
+          // Meals: 10 per completed listing, else 5 per any listing
+          meals = completed.length > 0 ? completed.length * 10 : all.length * 5;
+        }
+
+        // --- users: active volunteers + deliveries (from volunteer details) ---
+        const usersSnap = await get(ref(db, 'users'));
+        let activeVolunteers = 0;
+        let volunteerDelivered = 0;
+        if (usersSnap.exists()) {
+          const users = Object.values(usersSnap.val());
+          const volunteers = users.filter(u => String(u?.role ?? '').trim().toLowerCase() === 'volunteer');
+          activeVolunteers = volunteers.length;
+          volunteerDelivered = volunteers.reduce((sum, v) => {
+            const d = Number(v?.deliveries ?? v?.delivered ?? 0);
+            return sum + (Number.isFinite(d) ? d : 0);
+          }, 0);
+        }
+
+        // Animate the three counters
+        animateCount(document.getElementById('stat-meals'),    meals,    '');
+        animateCount(document.getElementById('stat-tons'),     volunteerDelivered, '');
+        animateCount(document.getElementById('stat-partners'), activeVolunteers,   '');
+
+      } catch (err) {
+        console.error('Stats load error:', err);
+        // Leave at 0 silently — public page, no auth required
+      }
+    }
+
+    // Trigger when stats section scrolls into view
+    const section = document.querySelector('#stat-meals').closest('section');
+    const observer = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting) {
+        observer.disconnect();
+        loadStats();
+      }
+    }, { threshold: 0.3 });
+    observer.observe(section);
+  </script>
+    <!-- How It Works -->
+    <section class="py-32 px-8 max-w-screen-2xl mx-auto py-8 md:py-12">
+      <div class="text-center mb-24 space-y-4">
+        <span
+          class="bg-primary-container text-on-primary-container px-6 py-2 rounded-full text-sm font-bold uppercase tracking-widest">The
+          Process</span>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <!-- Step 1 -->
+        <div
+          class="bg-surface-container-lowest p-10 rounded-xl shadow-sm hover:shadow-md transition-shadow group relative overflow-hidden">
+          <div class="absolute top-0 right-0 p-8 text-8xl font-headline font-black text-primary/5 select-none">01</div>
+          <div
+            class="w-16 h-16 bg-primary-container/20 rounded-full flex items-center justify-center mb-8 group-hover:scale-110 transition-transform">
+            <span class="material-symbols-outlined text-primary text-3xl">inventory_2</span>
+          </div>
+          <h3 class="text-2xl font-headline font-bold mb-4 text-primary">Collect</h3>
+          <p class="text-on-surface-variant leading-relaxed text-lg">
+            We partner with local grocers, restaurants, and farms to rescue surplus high-quality food before it reaches
+            the landfill.
+          </p>
+        </div>
+        <!-- Step 2 -->
+        <div
+          class="bg-surface-container-lowest p-10 rounded-xl shadow-sm hover:shadow-md transition-shadow group relative overflow-hidden">
+          <div class="absolute top-0 right-0 p-8 text-8xl font-headline font-black text-secondary/5 select-none">02
+          </div>
+          <div
+            class="w-16 h-16 bg-secondary-container/20 rounded-full flex items-center justify-center mb-8 group-hover:scale-110 transition-transform">
+            <span class="material-symbols-outlined text-secondary text-3xl">local_shipping</span>
+          </div>
+          <h3 class="text-2xl font-headline font-bold mb-4 text-secondary">Redistribute</h3>
+          <p class="text-on-surface-variant leading-relaxed text-lg">
+            Our logistics network efficiently routes the collected goods to neighborhood hubs and community kitchens in
+            real-time.
+          </p>
+        </div>
+        <!-- Step 3 -->
+        <div
+          class="bg-surface-container-lowest p-10 rounded-xl shadow-sm hover:shadow-md transition-shadow group relative overflow-hidden">
+          <div class="absolute top-0 right-0 p-8 text-8xl font-headline font-black text-tertiary/5 select-none">03</div>
+          <div
+            class="w-16 h-16 bg-tertiary-container/20 rounded-full flex items-center justify-center mb-8 group-hover:scale-110 transition-transform">
+            <span class="material-symbols-outlined text-tertiary text-3xl">restaurant_menu</span>
+          </div>
+          <h3 class="text-2xl font-headline font-bold mb-4 text-tertiary">Nourish</h3>
+          <p class="text-on-surface-variant leading-relaxed text-lg">
+            Every meal rescued is a meal shared. We ensure the food reaches families, seniors, and students,
+            strengthening our local bond.
+          </p>
+        </div>
+      </div>
+    </section>
+    <!-- Mission Bento Grid -->
+    <section class="py-24 px-8 max-w-screen-2xl mx-auto py-8 md:py-12">
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-6 h-full">
+        <!-- Large Image Content -->
+        <div
+          class="md:col-span-8 bg-primary rounded-xl overflow-hidden relative min-h-[500px] flex flex-col justify-end p-12">
+          <img alt="Sustainable growth"
+            class="absolute inset-0 w-full h-full object-cover mix-blend-multiply opacity-60"
+            data-alt="Lush green rows of fresh lettuce and vegetables growing in a sustainable urban garden under bright morning sunlight"
+            src="https://lh3.googleusercontent.com/aida-public/AB6AXuD39Ea--fRTBBnHkN7PUdJqVmUzvhx-dgEBQmpA7BjNJgBTMTx45CnI4tIN74MNF0ms3I-5Xzn6ygN5_09Px2qm9OmkJ_68AEPzlDssHhqbjRZvZIJ2M0a0TZRe5pSuKWh6h9-rjbm8v3gm2pXk9ceDPSo0qLqApoLFyDTtBfvuKxgWD8goE_to1k5uPCAoROnOUNKauMY29B12G3OM6mus9C6HCJPEJ7T9gcfhVnW9e7McLf1KZJmKol8R52VyztQs2RLZemYHalg" />
+          <div class="relative z-10 space-y-4">
+            <h2 class="text-4xl md:text-6xl font-headline font-extrabold text-white leading-tight">Our mission is rooted
+              in the belief that waste is just a lack of connection.</h2>
+            <p class="text-on-primary-container text-xl max-w-xl">By building the infrastructure for empathy, we're not
+              just moving food—we're moving people toward a more sustainable future.</p>
+          </div>
+        </div>
+        <!-- Supporting Info -->
+        <div class="md:col-span-4 flex flex-col gap-6">
+          <div class="bg-surface-container-high p-8 rounded-xl flex-1 flex flex-col justify-center">
+            <h4 class="font-headline font-bold text-2xl mb-4">Sustainability First</h4>
+            <p class="text-on-surface-variant">Every kilogram of food diverted from landfills reduces CO2 emissions and
+              preserves the resources used to produce it.</p>
+          </div>
+          <div
+            class="bg-secondary-container p-8 rounded-xl flex-1 flex flex-col justify-center text-on-secondary-container">
+            <h4 class="font-headline font-bold text-2xl mb-4">Community Driven</h4>
+            <p>We are powered by local volunteers and partners who know their neighborhoods best.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- CTA Section -->
+  </main>
+</body>
+
+</html>

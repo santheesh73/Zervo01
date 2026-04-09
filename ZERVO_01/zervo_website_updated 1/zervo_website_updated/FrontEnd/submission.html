@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>ZERVO - Serve Food</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://www.gstatic.com" rel="preconnect" crossorigin=""/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Manrope:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "surface": "#f5fced",
+                        "outline-variant": "#bfcaba",
+                        "on-tertiary": "#ffffff",
+                        "background": "#f5fced",
+                        "primary": "#0d631b",
+                        "on-secondary-container": "#5e2c00",
+                        "secondary-container": "#fc820c",
+                        "on-background": "#171d14",
+                        "surface-container-lowest": "#ffffff",
+                        "secondary-fixed-dim": "#ffb786",
+                        "on-tertiary-fixed-variant": "#2e4f00",
+                        "primary-fixed": "#a3f69c",
+                        "inverse-surface": "#2c3228",
+                        "on-primary": "#ffffff",
+                        "surface-variant": "#dee5d6",
+                        "outline": "#707a6c",
+                        "on-surface-variant": "#40493d",
+                        "on-surface": "#171d14",
+                        "inverse-on-surface": "#ecf3e4",
+                        "secondary-fixed": "#ffdcc6",
+                        "on-tertiary-fixed": "#0f2000",
+                        "on-primary-container": "#cbffc2",
+                        "inverse-primary": "#88d982",
+                        "secondary": "#964900",
+                        "on-tertiary-container": "#d6ffa5",
+                        "primary-fixed-dim": "#88d982",
+                        "error-container": "#ffdad6",
+                        "surface-container-low": "#eff6e7",
+                        "on-error-container": "#93000a",
+                        "tertiary-fixed": "#b9f474",
+                        "on-secondary": "#ffffff",
+                        "surface-container-high": "#e3ebdc",
+                        "on-error": "#ffffff",
+                        "on-secondary-fixed-variant": "#723600",
+                        "on-primary-fixed": "#002204",
+                        "surface-container-highest": "#dee5d6",
+                        "on-primary-fixed-variant": "#005312",
+                        "surface-container": "#e9f0e1",
+                        "tertiary": "#386000",
+                        "primary-container": "#2e7d32",
+                        "surface-tint": "#1b6d24",
+                        "surface-dim": "#d5dcce",
+                        "tertiary-container": "#4a7b00",
+                        "surface-bright": "#f5fced",
+                        "tertiary-fixed-dim": "#9ed75b",
+                        "on-secondary-fixed": "#311300",
+                        "error": "#ba1a1a"
+                    },
+                    fontFamily: {
+                        "headline": ["Plus Jakarta Sans"],
+                        "body": ["Manrope"],
+                        "label": ["Manrope"]
+                    },
+                    borderRadius: {"DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px"},
+                },
+            },
+        };
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .plusJakartaSans { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .manrope { font-family: 'Manrope', sans-serif; }
+        
+        /* Dropdown states */
+        .dropdown-content {
+            display: none;
+            animation: fadeIn 0.2s ease-out;
+        }
+        .dropdown-content.active {
+            display: block;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface font-body selection:bg-primary-fixed selection:text-on-primary-fixed">
+<!-- TopNavBar -->
+<header class="bg-emerald-50/80 dark:bg-emerald-950/80 backdrop-blur-xl docked full-width top-0 sticky z-50 no-line tonal-shift-surface-container-low">
+<nav class="flex justify-between items-center w-full px-6 py-4 max-w-screen-2xl mx-auto relative">
+<a href="index.html" class="text-2xl font-black tracking-tighter text-emerald-900 dark:text-emerald-50 plusJakartaSans hover:opacity-80">
+                ZERVO
+            </a>
+<div class="flex items-center space-x-4">
+<!-- Notifications -->
+<!-- Notifications -->
+<div class="relative zervo-notifications" id="notif-wrapper">
+    <button class="zervo-notifications-btn p-2 rounded-full hover:bg-emerald-100/50 transition-colors active:scale-95 duration-200 relative flex items-center justify-center">
+        <span class="material-symbols-outlined pointer-events-none">notifications</span>
+        <span class="zervo-notifications-badge hidden absolute top-0.5 right-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-error text-[10px] font-bold text-white shadow-sm pointer-events-none"></span>
+    </button>
+    <!-- Dropdown Panel -->
+    <div class="zervo-notifications-dropdown hidden absolute right-0 mt-2 sm:w-[360px] w-screen max-w-[calc(100vw-2rem)] bg-surface dark:bg-zinc-900 rounded-2xl shadow-xl border border-outline-variant/20 overflow-hidden z-50 transform origin-top transition-all duration-200 opacity-0 scale-95 pointer-events-none flex flex-col">
+        <div class="p-4 border-b border-outline-variant/10 flex justify-between items-center w-full bg-surface-container-lowest/50 backdrop-blur-sm">
+            <h3 class="font-headline font-bold text-on-surface">Notifications</h3>
+            <button class="zervo-notifications-mark-all text-xs font-bold text-primary hover:text-green-800 transition-colors cursor-pointer">Mark as read</button>
+        </div>
+        <div class="zervo-notifications-list w-full max-h-[60vh] overflow-y-auto"></div>
+        <div class="zervo-notifications-empty hidden py-12 px-6 flex flex-col items-center justify-center text-center gap-3 w-full border-t border-outline-variant/5">
+            <div class="w-16 h-16 rounded-full bg-surface-variant/20 flex items-center justify-center text-primary">
+                <span class="material-symbols-outlined text-3xl">notifications_off</span>
+            </div>
+            <p class="text-on-surface-variant font-medium text-sm">No notifications yet</p>
+        </div>
+    </div>
+</div>
+<!-- Profile Dropdown -->
+<div class="relative zervo-profile-wrapper">
+    <button class="zervo-profile-rtrig flex items-center justify-center rounded-full ring-2 ring-transparent hover:ring-primary/20 focus:ring-primary/40 focus:outline-none transition-all duration-200 active:scale-95 overflow-hidden" aria-haspopup="true" aria-expanded="false">
+        <div class="w-10 h-10 bg-primary-container rounded-full flex items-center justify-center text-primary font-bold text-sm font-headline">
+            GE
+        </div>
+    </button>
+    <!-- Dropdown Panel -->
+    <div class="zervo-profile-rdown absolute right-0 mt-3 w-64 bg-surface-container-lowest rounded-2xl shadow-xl border border-outline-variant/20 z-50 overflow-hidden transform origin-top-right transition-all duration-200 ease-out flex flex-col opacity-0 scale-95 -translate-y-2 invisible pointer-events-none">
+        <div class="p-4 border-b border-outline-variant/10 bg-surface-container-low/50">
+            <p class="font-headline font-bold text-on-surface text-sm truncate">Green Earth Bakery</p>
+            <p class="text-on-surface-variant font-medium text-xs mt-0.5 truncate"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="3f5c50514b5e5c4b7f584d5a5a515a5e4d4b57115c5052">[email&#160;protected]</a></p>
+        </div>
+        <div class="py-2">
+            <a href="editprofile.html" class="flex items-center w-full px-4 py-2.5 text-sm font-medium text-on-surface hover:bg-surface-variant/40 hover:text-primary transition-colors focus:outline-none" role="menuitem">
+                <span class="material-symbols-outlined mr-3 text-[20px]">person</span> View Profile
+            </a>
+
+        </div>
+        <div class="py-2 border-t border-outline-variant/10">
+            <a href="login.html" class="flex items-center w-full px-4 py-2.5 text-sm font-bold text-error hover:bg-error/10 transition-colors focus:outline-none" role="menuitem">
+                <span class="material-symbols-outlined mr-3 text-[20px]">logout</span> Logout
+            </a>
+        </div>
+    </div>
+</div>
+</div>
+</nav>
+</header>
+<main class="min-h-screen pb-32">
+<!-- Hero Section -->
+<section class="max-w-4xl mx-auto px-6 pt-12 pb-8">
+<div class="flex flex-col md:flex-row gap-8 items-center">
+<div class="flex-1 space-y-4">
+<h1 class="text-5xl md:text-6xl font-extrabold tracking-tight plusJakartaSans text-on-surface leading-[1.1]">
+                        Serve your <br/><span class="text-primary italic">Community.</span>
+</h1>
+<p class="text-on-surface-variant text-lg manrope max-w-md leading-relaxed">
+                        Every meal shared is a step toward zero waste. List your surplus food and nourish your neighbors today.
+                    </p>
+</div>
+<div class="w-full md:w-1/3 aspect-square rounded-lg bg-primary-container/10 overflow-hidden relative group">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" data-alt="Close up of fresh healthy vegetables and artisanal bread in a rustic basket, soft natural lighting on wooden table" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB3g0gupTkg_3mSZP1-lhWTI-4wLE_WLFi1pTRsFrrE_93M3g4zXKMe-wUKP3wAUf7bEJEU97qlrAiFjNW8MIahpNLPQmBVsCT1JGy2AJ_u2Pxo6QkHbNYSJoHJVqHC-bqRMq_u2WA20ajiabiz-nnvpccLoX1oHI8hQJNiowg37yfspj_E6XJh9AU1acKQafvEy4egy5A2-bJYj6tokpwK8kZMVbjX-27FxGGzFvC1OKqPIw5A0O40KI7p8TEJ49QDprzA9qy0tHs"/>
+<div class="absolute inset-0 bg-gradient-to-t from-primary/40 to-transparent"></div>
+</div>
+</div>
+</section>
+<!-- Form Section -->
+<section class="max-w-4xl mx-auto px-6">
+<div class="bg-surface-container-low rounded-xl p-8 md:p-12 shadow-[0px_20px_40px_rgba(23,29,20,0.06)] border border-outline-variant/10">
+<form class="space-y-12">
+<!-- Photo Upload -->
+<div class="space-y-4">
+<label class="block text-xl font-bold plusJakartaSans text-on-surface">1. Food Appearance</label>
+<!-- Hidden inputs -->
+<input id="food-photo-upload" type="file" accept="image/*" style="display:none;" onchange="handleFoodPhoto(this)"/>
+<input id="food-photo-camera" type="file" accept="image/*" capture="environment" style="display:none;" onchange="handleFoodPhoto(this)"/>
+
+<!-- Upload area / Preview -->
+<div id="food-photo-area" onclick="document.getElementById('food-photo-upload').click()" class="w-full h-64 rounded-lg bg-surface-container-highest border-2 border-dashed border-outline-variant/40 flex flex-col items-center justify-center space-y-3 transition-all hover:bg-surface-container-lowest hover:border-primary/40 cursor-pointer relative overflow-hidden">
+  <img id="food-photo-preview" src="" alt="Preview" style="display:none;width:100%;height:100%;object-fit:cover;position:absolute;inset:0;"/>
+  <div id="food-photo-placeholder" style="display:flex;flex-direction:column;align-items:center;gap:0.5rem;">
+    <span class="material-symbols-outlined text-5xl text-primary/60">add_a_photo</span>
+    <p class="manrope font-medium text-on-surface-variant">Tap to upload food photo</p>
+    <p class="manrope text-sm text-outline">JPEG or PNG, up to 10MB</p>
+  </div>
+</div>
+
+<!-- Camera + Upload buttons -->
+<div style="display:flex;gap:0.75rem;margin-top:0.75rem;">
+  <button type="button" onclick="document.getElementById('food-photo-camera').click()" style="flex:1;padding:0.75rem;border-radius:9999px;border:2px solid #0d631b;background:transparent;color:#0d631b;font-weight:700;font-family:Manrope,sans-serif;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:0.5rem;">
+    <span class="material-symbols-outlined" style="font-size:1.25rem;">photo_camera</span> Take Photo
+  </button>
+  <button type="button" onclick="document.getElementById('food-photo-upload').click()" style="flex:1;padding:0.75rem;border-radius:9999px;border:2px solid #bfcaba;background:transparent;color:#40493d;font-weight:700;font-family:Manrope,sans-serif;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:0.5rem;">
+    <span class="material-symbols-outlined" style="font-size:1.25rem;">upload</span> Upload Photo
+  </button>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+<!-- Food Quantity -->
+<div class="space-y-4">
+<label class="block text-xl font-bold plusJakartaSans text-on-surface">2. Food Quantity</label>
+<div class="relative">
+<input class="w-full px-6 py-4 rounded-lg bg-surface-container-highest border-none focus:ring-2 focus:ring-primary/20 focus:bg-surface-container-lowest manrope text-on-surface transition-all" id="food-quantity" placeholder="e.g. 5 meals or 2kg" type="text"/>
+<span class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-primary/60">scale</span>
+</div>
+</div>
+<!-- Food Type -->
+<div class="space-y-4">
+<label class="block text-xl font-bold plusJakartaSans text-on-surface">3. Food Type</label>
+<div class="flex flex-wrap gap-3 flex-col">
+<div class="flex flex-wrap gap-4 flex-col">
+<label class="relative cursor-pointer group">
+<input class="peer sr-only" name="food_type" required="" type="radio" value="veg"/>
+<div class="px-8 py-2.5 rounded-full border-2 border-outline-variant/30 bg-surface-container-high text-on-surface-variant font-semibold manrope transition-all peer-checked:bg-[#2E7D32] peer-checked:text-white peer-checked:border-[#2E7D32] hover:border-[#2E7D32]/50">Veg</div>
+</label>
+<label class="relative cursor-pointer group">
+<input class="peer sr-only" name="food_type" type="radio" value="non-veg"/>
+<div class="px-8 py-2.5 rounded-full border-2 border-outline-variant/30 bg-surface-container-high text-on-surface-variant font-semibold manrope transition-all peer-checked:bg-[#2E7D32] peer-checked:text-white peer-checked:border-[#2E7D32] hover:border-[#2E7D32]/50">Non-Veg</div>
+</label>
+<label class="relative cursor-pointer group">
+<input class="peer sr-only" name="food_type" type="radio" value="both"/>
+<div class="px-8 py-2.5 rounded-full border-2 border-outline-variant/30 bg-surface-container-high text-on-surface-variant font-semibold manrope transition-all peer-checked:bg-[#2E7D32] peer-checked:text-white peer-checked:border-[#2E7D32] hover:border-[#2E7D32]/50">Both</div>
+</label>
+</div>
+<p class="text-[10px] text-on-surface-variant/60 manrope mt-2 italic select-none">Please select one option to proceed with listing.</p></div>
+</div>
+</div>
+<!-- Pickup Location -->
+<!-- Organization Name -->
+<div class="space-y-4">
+<label class="block text-xl font-bold plusJakartaSans text-on-surface">4. Organization Name</label>
+<div class="relative group">
+<input class="w-full px-6 py-4 rounded-lg bg-surface-container-highest border-none focus:ring-2 focus:ring-primary/20 focus:bg-surface-container-lowest manrope text-on-surface transition-all" id="org-name" placeholder="Enter organization name" type="text"/>
+<span class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-primary/60">business</span>
+</div>
+</div><div class="space-y-4">
+<label class="block text-xl font-bold plusJakartaSans text-on-surface">5. Pickup Location</label>
+<div class="relative group">
+<input class="w-full px-6 py-4 rounded-lg bg-surface-container-highest border-none focus:ring-2 focus:ring-primary/20 focus:bg-surface-container-lowest manrope text-on-surface transition-all" id="pickup-location" placeholder="Enter pickup address" type="text"/>
+<span class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-primary/60">location_on</span>
+</div>
+</div>
+<!-- Cooked Time -->
+<div class="space-y-4">
+<label class="block text-xl font-bold plusJakartaSans text-on-surface">6. Food Cooked Time</label>
+<div class="relative">
+<input class="w-full px-6 py-4 rounded-lg bg-surface-container-highest border-none focus:ring-2 focus:ring-primary/20 focus:bg-surface-container-lowest manrope text-on-surface transition-all" id="cooked-time" type="datetime-local"/>
+</div>
+<p class="text-sm manrope text-on-surface-variant italic">Freshness transparency helps speed up redistribution.</p>
+</div>
+<!-- Preferred Pickup Time -->
+<div class="space-y-4">
+<label class="block text-xl font-bold plusJakartaSans text-on-surface">7. Preferred Pickup Time</label>
+<div class="relative">
+<select id="pickup-time" class="w-full px-6 py-4 rounded-lg bg-surface-container-highest border-none focus:ring-2 focus:ring-primary/20 focus:bg-surface-container-lowest manrope text-on-surface transition-all appearance-none">
+<option value="morning">Morning (8:00 AM - 12:00 PM)</option>
+<option selected="" value="afternoon">Afternoon (12:00 PM - 4:00 PM)</option>
+<option value="evening">Evening (4:00 PM - 8:00 PM)</option>
+</select>
+</div>
+</div>
+<!-- Submit Button -->
+<!-- Contact Number -->
+<div class="space-y-4">
+<label class="block text-xl font-bold plusJakartaSans text-on-surface">8. User Name</label>
+<div class="relative">
+<input class="w-full px-6 py-4 rounded-lg bg-surface-container-highest border-none focus:ring-2 focus:ring-primary/20 focus:bg-surface-container-lowest manrope text-on-surface transition-all" id="user-name" placeholder="e.g. John Doe" type="text"/>
+<span class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-primary/60">person</span>
+</div>
+</div><div class="space-y-4 mb-8">
+<label class="block text-xl font-bold plusJakartaSans text-on-surface">9. Contact Number</label>
+<div class="relative">
+<input class="w-full px-6 py-4 rounded-lg bg-surface-container-highest border-none focus:ring-2 focus:ring-primary/20 focus:bg-surface-container-lowest manrope text-on-surface transition-all" id="contact-number" placeholder="e.g. +1 234 567 8900" type="tel"/>
+<span class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-primary/60">call</span>
+</div>
+</div><div class="pt-8">
+<div class="flex flex-col items-center md:items-start gap-6">
+<button id="submit-btn" class="w-full md:w-auto px-12 py-5 rounded-xl bg-secondary-container text-on-secondary-container plusJakartaSans font-extrabold text-xl shadow-[0px_10px_20px_rgba(252,130,12,0.2)] hover:scale-105 active:scale-95 transition-all duration-300" type="button">Submit</button>
+</div>
+</div>
+</form>
+</div>
+</section>
+</main>
+<script type="module" src="assets/js/notifications.js"></script>
+<script type="module" src="assets/js/profile.js"></script>
+
+<script type="module">
+  import { initializeApp }               from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+  import { getDatabase, ref, push,
+           set, get }                    from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+  import { normalizePhone, queueSms }    from "./assets/js/sms-notify.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyB8ynZXXUV7MJLbZNd42CEUpZDRWXoHM30",
+    authDomain: "zervo-9585.firebaseapp.com",
+    projectId: "zervo-9585",
+    storageBucket: "zervo-9585.firebasestorage.app",
+    messagingSenderId: "892339796416",
+    appId: "1:892339796416:web:f9810482ae1c40be6b3025",
+    databaseURL: "https://zervo-9585-default-rtdb.firebaseio.com"
+  };
+
+  const app  = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db   = getDatabase(app);
+  let currentUser = null;
+
+  // ── Show toast ────────────────────────────────────────────────────────
+  function showToast(msg, isError = false) {
+    let toast = document.getElementById('sub-toast');
+    if (!toast) {
+      toast = document.createElement('div');
+      toast.id = 'sub-toast';
+      toast.style.cssText = 'position:fixed;top:80px;left:50%;transform:translateX(-50%);z-index:9999;padding:14px 28px;border-radius:999px;font-weight:700;font-size:15px;box-shadow:0 4px 20px rgba(0,0,0,0.15);';
+      document.body.appendChild(toast);
+    }
+    toast.textContent = msg;
+    toast.style.background = isError ? '#ba1a1a' : '#0d631b';
+    toast.style.color = '#fff';
+    toast.style.display = 'block';
+    setTimeout(() => toast.style.display = 'none', 4000);
+  }
+
+
+  // ── Food photo (window scope so HTML onchange can access) ──────────────
+  window.foodPhotoBase64 = null;
+  window.handleFoodPhoto = function(input) {
+    const file = input.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      window.foodPhotoBase64 = e.target.result;
+      const preview     = document.getElementById('food-photo-preview');
+      const placeholder = document.getElementById('food-photo-placeholder');
+      if (preview)     { preview.src = window.foodPhotoBase64; preview.style.display = 'block'; }
+      if (placeholder) { placeholder.style.display = 'none'; }
+    };
+    reader.readAsDataURL(file);
+  };
+
+  // ── Load user data into name/contact fields automatically ─────────────
+  onAuthStateChanged(auth, async (user) => {
+    if (!user) { window.location.href = 'login.html'; return; }
+    currentUser = user;
+
+    // Auto-fill name and contact from database
+    try {
+      const snapshot = await get(ref(db, 'users/' + user.uid));
+      if (snapshot.exists()) {
+        const data = snapshot.val();
+        const nameEl    = document.getElementById('user-name');
+        const contactEl = document.getElementById('contact-number');
+        if (nameEl && data.name)    nameEl.value    = data.name;
+        if (contactEl && data.phone) contactEl.value = data.phone;
+      }
+    } catch (err) { console.error(err); }
+  });
+
+  // ── Send in-app notification + SMS queue (volunteers only) ────────────
+  async function sendNotifications(foodData) {
+    try {
+      const usersSnap = await get(ref(db, 'users'));
+      if (!usersSnap.exists()) return;
+
+      const users = usersSnap.val();
+      const tasks = [];
+      const smsBody =
+        'ZERVO: ' +
+        foodData.quantity + ' ' + foodData.foodType +
+        ' available at ' + foodData.location + '. Open ZERVO to claim.';
+
+      for (const [uid, userData] of Object.entries(users)) {
+        const role = String(userData?.role ?? '').trim().toLowerCase();
+        if (role !== 'volunteer') continue;
+
+        const phoneDigits = normalizePhone(userData.phone ?? userData.mobile);
+        const notifRef    = push(ref(db, 'notifications/' + uid));
+
+        tasks.push(
+          set(notifRef, {
+            id:        notifRef.key,
+            type:      'new_food',
+            title:     '🍱 New Food Available!',
+            message:   foodData.quantity + ' of ' + foodData.foodType + ' food available at ' + foodData.location,
+            donor:     foodData.donorName,
+            contact:   foodData.contact,
+            location:  foodData.location,
+            pickupTime: foodData.pickupTime,
+            foodId:    foodData.id,
+            isRead:    false,
+            createdAt: Date.now(),
+            toPhone:   phoneDigits || null,
+          })
+        );
+
+        tasks.push(
+          queueSms(db, {
+            toDigits: phoneDigits,
+            body:     smsBody,
+            userUid:  uid,
+            type:     'new_food',
+            extra:    { foodId: foodData.id },
+          })
+        );
+      }
+
+      await Promise.all(tasks);
+      console.log('Volunteer notifications + SMS queue jobs written');
+    } catch (err) {
+      console.error('Notification error:', err);
+    }
+  }
+
+  // ── Submit button handler ─────────────────────────────────────────────
+  document.addEventListener('DOMContentLoaded', () => {
+    const submitBtn = document.getElementById('submit-btn');
+    if (!submitBtn) return;
+
+    submitBtn.addEventListener('click', async () => {
+      if (!currentUser) { showToast('Please login first', true); return; }
+
+      // Get all field values
+      const quantity   = document.getElementById('food-quantity')?.value.trim();
+      const foodType   = document.querySelector('input[name="food_type"]:checked')?.value;
+      const orgName    = document.getElementById('org-name')?.value.trim();
+      const location   = document.getElementById('pickup-location')?.value.trim();
+      const cookedTime = document.getElementById('cooked-time')?.value;
+      const pickupTime = document.getElementById('pickup-time')?.value;
+      const userName   = document.getElementById('user-name')?.value.trim();
+      const contact    = document.getElementById('contact-number')?.value.trim();
+
+      // Validate required fields
+      if (!quantity)   { showToast('❌ Please enter food quantity', true);   return; }
+      if (!foodType)   { showToast('❌ Please select food type', true);       return; }
+      if (!location)   { showToast('❌ Please enter pickup location', true);  return; }
+      if (!contact)    { showToast('❌ Please enter contact number', true);   return; }
+
+      // Show loading state
+      submitBtn.textContent = 'Submitting…';
+      submitBtn.disabled    = true;
+
+      try {
+        // Save food listing to Firebase
+        const foodRef  = push(ref(db, 'food_listings'));
+        const foodData = {
+          id:          foodRef.key,
+          donorId:     currentUser.uid,
+          donorName:   userName || currentUser.displayName || 'Anonymous',
+          organisation: orgName || '',
+          quantity:    quantity,
+          foodType:    foodType,
+          location:    location,
+          cookedTime:  cookedTime || '',
+          pickupTime:  pickupTime || '',
+          contact:     contact,
+          status:      'available',   // available | picked_up | completed
+          photo:       window.foodPhotoBase64 || null,  // donor's food photo
+          createdAt:   Date.now()
+        };
+
+        await set(foodRef, foodData);
+
+        // Send notifications to volunteers
+        await sendNotifications(foodData);
+
+        showToast('✅ Food listed successfully! Volunteers notified!');
+
+        // Redirect to the same page after 2 seconds
+        setTimeout(() => {
+          window.location.href = 'submission.html';
+        }, 2000);
+
+      } catch (err) {
+        console.error('Submission error:', err);
+        showToast('❌ Error submitting. Please try again.', true);
+        submitBtn.textContent = 'Submit';
+        submitBtn.disabled    = false;
+      }
+    });
+  });
+</script>
+</body></html>

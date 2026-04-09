@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Active Pickup | ZERVO</title>
+<link rel="preconnect" href="https://www.gstatic.com" crossorigin/>
+<link rel="preconnect" href="https://www.googleapis.com" crossorigin/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link rel="stylesheet" href="css/zervo-styles.css"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<style>
+  .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+  body { font-family: 'Manrope', sans-serif; background-color: #f5fced; color: #171d14; }
+  h1,h2,h3 { font-family: 'Plus Jakarta Sans', sans-serif; }
+  .step-card { background: #ffffff; border-radius: 1rem; padding: 1.5rem; box-shadow: 0 4px 20px rgba(23,29,20,0.04); margin-bottom: 1rem; transition: all 0.3s; }
+  .step-card.inactive { opacity: 0.6; }
+  .step-btn { padding: 1rem 2rem; border-radius: 9999px; font-weight: 700; border: none; cursor: pointer; display: flex; align-items: center; gap: 0.5rem; transition: all 0.2s; font-family: 'Manrope', sans-serif; }
+  .step-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+  .step-btn:not(:disabled):hover { transform: scale(0.97); }
+  .step-btn.primary { background: #0d631b; color: #ffffff; }
+  .step-btn.orange { background: #fc820c; color: #5e2c00; }
+  .step-btn.grey { background: #e3ebdc; color: #171d14; }
+  .step-btn.done { background: #0d631b; color: #ffffff; }
+  .pulse { width: 0.5rem; height: 0.5rem; background: #0d631b; border-radius: 9999px; animation: pulse 2s infinite; display: inline-block; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+</style>
+</head>
+<body style="min-height:100vh; background:#f5fced;">
+
+<div style="display:flex; flex-direction:column; min-height:100vh;">
+
+  <!-- Nav -->
+  <nav style="background:rgba(245,252,237,0.9); backdrop-filter:blur(20px); padding:1rem 1.5rem; display:flex; justify-content:space-between; align-items:center; position:sticky; top:0; z-index:50; box-shadow:0 1px 10px rgba(0,0,0,0.05);">
+    <a href="index.html" style="font-family:'Plus Jakarta Sans',sans-serif; font-weight:900; font-size:1.5rem; color:#0d631b; text-decoration:none;">ZERVO</a>
+    <div class="relative zervo-profile-wrapper">
+      <button class="zervo-profile-rtrig" style="background:none;border:none;cursor:pointer;" aria-haspopup="true" aria-expanded="false">
+        <div style="width:2.5rem;height:2.5rem;border-radius:9999px;background:#0d631b;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;">?</div>
+      </button>
+      <div class="zervo-profile-rdown" style="position:absolute;right:0;top:3rem;width:16rem;background:#fff;border-radius:1rem;box-shadow:0 10px 30px rgba(0,0,0,0.1);border:1px solid rgba(191,202,186,0.2);z-index:50;opacity:0;transform:scale(0.95) translateY(-0.5rem);visibility:hidden;transition:all 0.2s;pointer-events:none;">
+        <div style="padding:1rem;border-bottom:1px solid rgba(191,202,186,0.15);">
+          <p style="font-weight:700;font-size:0.875rem;color:#171d14;" class="font-headline" id="drop-name">Loading...</p>
+          <p style="font-size:0.75rem;color:#40493d;margin-top:0.25rem;" id="drop-email"></p>
+        </div>
+        <div style="padding:0.5rem 0;">
+          <a href="editprofile.html" style="display:flex;align-items:center;gap:0.75rem;padding:0.625rem 1rem;font-size:0.875rem;color:#171d14;text-decoration:none;" onmouseover="this.style.background='rgba(222,229,214,0.4)'" onmouseout="this.style.background='none'">
+            <span class="material-symbols-outlined" style="font-size:1.25rem;">person</span> View Profile
+          </a>
+        </div>
+        <div style="padding:0.5rem 0;border-top:1px solid rgba(191,202,186,0.15);">
+          <a href="login.html" id="logout-btn" style="display:flex;align-items:center;gap:0.75rem;padding:0.625rem 1rem;font-size:0.875rem;font-weight:700;color:#ba1a1a;text-decoration:none;" onmouseover="this.style.background='rgba(186,26,26,0.08)'" onmouseout="this.style.background='none'">
+            <span class="material-symbols-outlined" style="font-size:1.25rem;">logout</span> Logout
+          </a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main -->
+  <main style="flex:1; padding:2rem 1.5rem; max-width:64rem; margin:0 auto; width:100%;">
+
+    <!-- Header -->
+    <div style="margin-bottom:2rem;">
+      <div style="display:inline-flex;align-items:center;gap:0.5rem;background:rgba(13,99,27,0.08);color:#0d631b;padding:0.25rem 0.75rem;border-radius:9999px;margin-bottom:1rem;">
+        <span class="pulse"></span>
+        <span style="font-size:0.75rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;">Live Mission</span>
+      </div>
+      <h1 style="font-size:2.5rem;font-weight:800;color:#171d14;font-family:'Plus Jakarta Sans',sans-serif;letter-spacing:-0.025em;">Pickup Details</h1>
+      <p style="color:#40493d;margin-top:0.5rem;">Complete all steps to finish this pickup mission.</p>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr;gap:1.5rem;">
+      <!-- Left: Donor Info + Steps -->
+      <div style="display:flex;flex-direction:column;gap:1.5rem;">
+
+        <!-- Donor Info Card -->
+        <div style="background:#ffffff;border-radius:1rem;padding:2rem;box-shadow:0 4px 20px rgba(23,29,20,0.04);">
+          <div style="display:flex;gap:1.5rem;align-items:flex-start;flex-wrap:wrap;">
+            <div style="width:5rem;height:5rem;background:rgba(46,125,50,0.1);border-radius:0.75rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+              <span class="material-symbols-outlined" style="font-size:2.5rem;color:#0d631b;">store</span>
+            </div>
+            <div style="flex:1;min-width:200px;">
+              <h2 id="pickup-org" style="font-size:1.5rem;font-weight:700;color:#171d14;font-family:'Plus Jakarta Sans',sans-serif;">Loading...</h2>
+              <p id="pickup-type" style="color:#40493d;margin-bottom:1.5rem;">Loading details...</p>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;">
+                <div style="display:flex;gap:0.75rem;align-items:flex-start;">
+                  <span class="material-symbols-outlined" style="color:#0d631b;margin-top:2px;">location_on</span>
+                  <div>
+                    <p style="font-size:0.65rem;font-weight:700;color:#40493d;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.25rem;">Pickup Address</p>
+                    <p id="pickup-location" style="font-size:0.875rem;color:#171d14;">—</p>
+                  </div>
+                </div>
+                <div style="display:flex;gap:0.75rem;align-items:flex-start;">
+                  <span class="material-symbols-outlined" style="color:#0d631b;margin-top:2px;">schedule</span>
+                  <div>
+                    <p style="font-size:0.65rem;font-weight:700;color:#40493d;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.25rem;">Pickup Time</p>
+                    <p id="pickup-time" style="font-size:0.875rem;color:#171d14;">—</p>
+                    <p id="cooked-elapsed" style="font-size:0.65rem;color:#0d631b;font-weight:700;margin-top:2px;"></p>
+                  </div>
+                </div>
+                <div style="display:flex;gap:0.75rem;align-items:flex-start;">
+                  <span class="material-symbols-outlined" style="color:#0d631b;margin-top:2px;">person</span>
+                  <div>
+                    <p style="font-size:0.65rem;font-weight:700;color:#40493d;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.25rem;">Contact Person</p>
+                    <p id="pickup-donor" style="font-size:0.875rem;color:#171d14;">—</p>
+                  </div>
+                </div>
+                <div style="display:flex;gap:0.75rem;align-items:flex-start;">
+                  <span class="material-symbols-outlined" style="color:#0d631b;margin-top:2px;">call</span>
+                  <div>
+                    <p style="font-size:0.65rem;font-weight:700;color:#40493d;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.25rem;">Direct Line</p>
+                    <p id="pickup-contact" style="font-size:0.875rem;color:#171d14;">—</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Donor Food Photo (shown if donor uploaded one) -->
+        <div id="donor-photo-box" style="display:none;">
+          <div style="background:#fff;border-radius:1rem;padding:1.25rem;box-shadow:0 4px 20px rgba(23,29,20,0.04);">
+            <p style="font-size:0.75rem;font-weight:700;color:#0d631b;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.75rem;">📸 Food Photo from Donor</p>
+            <img id="donor-food-photo" src="" alt="Food" style="width:100%;max-height:250px;object-fit:cover;border-radius:0.75rem;border:2px solid rgba(13,99,27,0.15);"/>
+          </div>
+        </div>
+
+        <!-- Workflow Steps -->
+        <div id="step2" class="step-card inactive">
+          <p style="font-size:0.7rem;font-weight:700;color:#40493d;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:1rem;">Step 2: Drop-off Location</p>
+          <div style="display:flex;flex-direction:column;gap:1rem;">
+            <p style="color:#40493d;font-size:0.875rem;">Select the receiver who requested food. They will be notified that their request is accepted.</p>
+            <!-- Receiver dropdown -->
+            <div style="display:flex;gap:1rem;flex-wrap:wrap;align-items:center;">
+              <select id="receiver-select" onchange="onReceiverSelect()" disabled
+                style="flex:1;min-width:200px;padding:0.875rem 1rem;border-radius:9999px;border:1px solid rgba(191,202,186,0.4);background:#f5fced;font-family:Manrope,sans-serif;font-size:0.875rem;color:#171d14;outline:none;cursor:pointer;">
+                <option value="">Select drop-off location...</option>
+              </select>
+              <button class="step-btn orange" onclick="confirmDropOff()" id="btn2" disabled>
+                <span class="material-symbols-outlined">location_on</span> Confirm Location
+              </button>
+            </div>
+            <!-- Selected receiver details -->
+            <div id="receiver-details" style="display:none;background:#eff6e7;border-radius:0.75rem;padding:1rem;font-size:0.875rem;color:#171d14;">
+              <p id="receiver-org" style="font-weight:700;margin-bottom:0.25rem;"></p>
+              <p id="receiver-addr" style="color:#40493d;display:flex;align-items:center;gap:0.25rem;"><span class="material-symbols-outlined" style="font-size:1rem;">location_on</span><span id="receiver-addr-text"></span></p>
+              <p id="receiver-phone" style="color:#40493d;display:flex;align-items:center;gap:0.25rem;margin-top:0.25rem;"><span class="material-symbols-outlined" style="font-size:1rem;">call</span><span id="receiver-phone-text"></span></p>
+            </div>
+          </div>
+        </div>
+
+        <div id="step1" class="step-card">
+          <p style="font-size:0.7rem;font-weight:700;color:#40493d;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:1rem;">Step 1: On-site Check</p>
+          <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;">
+            <p style="color:#40493d;font-size:0.875rem;flex:1;">Verify your arrival at the pickup location to begin the process.</p>
+            <button class="step-btn primary" onclick="completeStep(1)" id="btn1">
+              <span class="material-symbols-outlined">verified</span> Verify Arrival
+            </button>
+          </div>
+        </div>
+
+
+        <div id="step3" class="step-card inactive">
+          <p style="font-size:0.7rem;font-weight:700;color:#40493d;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:1rem;">Step 3: Departure</p>
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:1rem;">
+            <div style="flex:1;">
+              <p style="color:#40493d;font-size:0.875rem;">Confirm dispatch once all items are securely loaded in your vehicle.</p>
+              <p style="font-size:0.75rem;color:#707a6c;font-style:italic;margin-top:0.5rem;">Please verify quality and quantity before marking as dispatched.</p>
+            </div>
+            <button class="step-btn grey" onclick="completeStep(3)" id="btn3" disabled>
+              <span class="material-symbols-outlined">local_shipping</span> Dispatched
+            </button>
+          </div>
+        </div>
+
+        <div id="step4" class="step-card inactive">
+          <p style="font-size:0.7rem;font-weight:700;color:#40493d;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:1rem;">Step 4: Documentation</p>
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:1rem;">
+            <p style="color:#40493d;font-size:0.875rem;flex:1;">Capture a photo of the items at the drop-off location for records.</p>
+            <div style="display:flex;flex-direction:column;gap:0.75rem;align-items:flex-end;">
+              <!-- Hidden inputs -->
+              <input type="file" id="upload-input" accept="image/*" style="display:none;" onchange="handlePhoto(this)"/>
+              <input type="file" id="camera-input" accept="image/*" capture="environment" style="display:none;" onchange="handlePhoto(this)"/>
+              <!-- Buttons -->
+              <div style="display:flex;gap:0.5rem;flex-wrap:wrap;">
+                <button class="step-btn grey" onclick="document.getElementById('camera-input').click()" id="btn-camera" disabled style="background:#e9f0e1;color:#171d14;">
+                  <span class="material-symbols-outlined">photo_camera</span> Camera
+                </button>
+                <button class="step-btn grey" onclick="document.getElementById('upload-input').click()" id="btn4" disabled>
+                  <span class="material-symbols-outlined">upload</span> Upload Photo
+                </button>
+              </div>
+            </div>
+          </div>
+          <!-- Image Preview -->
+          <div id="photo-preview-box" style="display:none;margin-top:1rem;">
+            <p style="font-size:0.75rem;font-weight:700;color:#0d631b;margin-bottom:0.5rem;">📸 Photo Preview:</p>
+            <img id="photo-preview" src="" alt="Preview" style="width:100%;max-height:200px;object-fit:cover;border-radius:0.75rem;border:2px solid rgba(13,99,27,0.2);"/>
+          </div>
+        </div>
+
+        <div id="step5" class="step-card inactive">
+          <p style="font-size:0.7rem;font-weight:700;color:#40493d;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:1rem;">Step 5: Completion</p>
+          <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;">
+            <p style="color:#40493d;font-size:0.875rem;flex:1;">Confirm the final delivery to the redistribution center or partner agency.</p>
+            <button class="step-btn primary" onclick="markDelivered()" id="btn5" disabled>
+              <span class="material-symbols-outlined">task_alt</span> Mark as Delivered
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+</div>
+
+<script type="module" src="assets/js/notifications.js"></script>
+<script type="module" src="assets/js/profile.js"></script>
+
+<script type="module">
+  import { initializeApp }               from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+  import { getDatabase, ref, get, update, push, set } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+  const firebaseConfig = {
+    apiKey: "AIzaSyB8ynZXXUV7MJLbZNd42CEUpZDRWXoHM30",
+    authDomain: "zervo-9585.firebaseapp.com",
+    projectId: "zervo-9585",
+    storageBucket: "zervo-9585.firebasestorage.app",
+    messagingSenderId: "892339796416",
+    appId: "1:892339796416:web:f9810482ae1c40be6b3025",
+    databaseURL: "https://zervo-9585-default-rtdb.firebaseio.com"
+  };
+
+  const app  = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db   = getDatabase(app);
+
+  let currentUser   = null;
+  let currentFoodId = null;
+  let currentStep   = 1;
+  const foodCachePrefix = 'zervo_pickup_food_';
+  const latestFoodCacheKey = 'zervo_pickup_latest_food';
+
+  // ── Step logic ─────────────────────────────────────────────────────────
+  window.completeStep = async function(step) {
+    if (step !== currentStep) return;
+    const btn = document.getElementById('btn' + step);
+    btn.innerHTML = '<span class="material-symbols-outlined">check_circle</span> Completed';
+    btn.disabled  = true;
+    btn.className = 'step-btn done';
+    document.getElementById('step' + step).classList.remove('inactive');
+    currentStep++;
+
+    // Step 1: Mark food as picked_up + load receiver requests for Step 2
+    if (step === 1 && currentFoodId) {
+      try { await update(ref(db, 'food_listings/' + currentFoodId), { status: 'picked_up' }); } catch(e){}
+      await loadReceiverRequests();
+      const sel = document.getElementById('receiver-select');
+      if (sel) sel.disabled = false;
+    }
+
+    // Step 3 (Departure) done → unlock Step 4 (Documentation)
+    if (step === 3) {
+      document.getElementById('step4').classList.remove('inactive');
+      const btn4   = document.getElementById('btn4');
+      const camBtn = document.getElementById('btn-camera');
+      if (btn4)   btn4.disabled   = false;
+      if (camBtn) camBtn.disabled = false;
+      return;
+    }
+
+    if (currentStep <= 5) {
+      document.getElementById('step' + currentStep).classList.remove('inactive');
+      // Step 2 uses confirmDropOff, not completeStep
+      if (currentStep !== 2) {
+        const nextBtn = document.getElementById('btn' + currentStep);
+        if (nextBtn) nextBtn.disabled = false;
+      }
+    }
+  };
+
+  // ── Receiver requests data ───────────────────────────────────────────
+  let receiverRequestsData = {};
+  let selectedReceiverId    = null;
+  let selectedRequestId     = null;
+
+  // Load receiver requests into dropdown when Step 2 unlocks
+  async function loadReceiverRequests() {
+    const select = document.getElementById('receiver-select');
+    if (!select) return;
+    try {
+      const snap = await get(ref(db, 'food_requests'));
+      if (!snap.exists()) {
+        select.innerHTML = '<option value="">No receiver requests yet</option>';
+        return;
+      }
+      const requests = Object.entries(snap.val())
+        .map(([key, value]) => ({ ...(value || {}), id: value?.id || key }))
+        .filter(r => r.status === 'pending');
+      receiverRequestsData = {};
+      requests.forEach(r => { receiverRequestsData[r.id] = r; });
+
+      if (requests.length === 0) {
+        select.innerHTML = '<option value="">No pending receiver requests</option>';
+        return;
+      }
+
+      select.innerHTML = '<option value="">Select drop-off location...</option>' +
+        requests.map(r => `<option value="${r.id}">${r.organisation || 'Organisation'} — ${r.address || 'Address not provided'}</option>`).join('');
+    } catch(err) { console.error('Receiver load error:', err); }
+  }
+
+  // Show receiver details when selected
+  window.onReceiverSelect = function() {
+    const select  = document.getElementById('receiver-select');
+    const reqId   = select.value;
+    const details = document.getElementById('receiver-details');
+    const btn2    = document.getElementById('btn2');
+
+    if (!reqId) {
+      details.style.display = 'none';
+      btn2.disabled = true;
+      selectedRequestId  = null;
+      selectedReceiverId = null;
+      return;
+    }
+
+    const req = receiverRequestsData[reqId];
+    if (req) {
+      document.getElementById('receiver-org').textContent        = req.organisation || 'Organisation';
+      document.getElementById('receiver-addr-text').textContent  = req.address || '';
+      document.getElementById('receiver-phone-text').textContent = req.contact || '';
+      details.style.display = 'block';
+      btn2.disabled          = false;
+      selectedRequestId      = req.id || reqId;
+      selectedReceiverId     = req.receiverId;
+    }
+  };
+
+  // Confirm drop-off: notify receiver + mark request accepted
+  window.confirmDropOff = async function() {
+    if (!selectedRequestId || !currentUser) return;
+    const btn = document.getElementById('btn2');
+    btn.disabled = true;
+    btn.innerHTML = '<span class="material-symbols-outlined">hourglass_top</span> Confirming...';
+
+    try {
+      // Get volunteer info
+      const volSnap = await get(ref(db, 'users/' + currentUser.uid));
+      const volData = volSnap.exists() ? volSnap.val() : {};
+      const volName = volData.name || currentUser.displayName || 'A volunteer';
+      const req     = receiverRequestsData[selectedRequestId];
+
+      // Mark request as accepted
+      await update(ref(db, 'food_requests/' + selectedRequestId), {
+        status:      'accepted',
+        acceptedBy:  currentUser.uid,
+        acceptedAt:  Date.now()
+      });
+
+      // Send notification to receiver
+      if (selectedReceiverId) {
+        const notifRef = push(ref(db, 'notifications/' + selectedReceiverId));
+        await set(notifRef, {
+          id:        notifRef.key,
+          type:      'request_accepted',
+          title:     '🎉 Your Request is Accepted!',
+          message:   volName + ' has accepted your food request for ' + (req.organisation||'') + ' at ' + (req.address||'') + '. They are on their way!',
+          volunteer: volName,
+          requestId: selectedRequestId,
+          isRead:    false,
+          createdAt: Date.now()
+        });
+      }
+
+      // Also SMS receiver if they have phone
+      if (req && req.contact) {
+        const smsMsg = 'ZERVO: Great news! ' + volName + ' has accepted your food request and is on the way to ' + (req.address||'your location') + '. Thank you!';
+        sendSMS(req.contact, smsMsg);
+      }
+
+      // Mark step 2 as done and proceed to Step 3: Departure
+      btn.innerHTML = '<span class="material-symbols-outlined">check_circle</span> Location Confirmed';
+      btn.className = 'step-btn done';
+      document.getElementById('step2').classList.remove('inactive');
+      currentStep = 3;
+      document.getElementById('step3').classList.remove('inactive');
+      const btn3 = document.getElementById('btn3');
+      if (btn3) btn3.disabled = false;
+
+    } catch(err) {
+      console.error('Confirm error:', err);
+      btn.disabled  = false;
+      btn.innerHTML = '<span class="material-symbols-outlined">location_on</span> Confirm Location';
+    }
+  };
+
+  // ── Handle photo from upload or camera ────────────────────────────────
+  let uploadedPhotoBase64 = null;
+
+  window.handlePhoto = function(input) {
+    const file = input.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      uploadedPhotoBase64 = e.target.result; // base64 string
+
+      // Show preview
+      const preview    = document.getElementById('photo-preview');
+      const previewBox = document.getElementById('photo-preview-box');
+      if (preview && previewBox) {
+        preview.src          = uploadedPhotoBase64;
+        previewBox.style.display = 'block';
+      }
+
+      // Mark step 3 done
+      const btn4    = document.getElementById('btn4');
+      const camBtn  = document.getElementById('btn-camera');
+      if (btn4)   { btn4.innerHTML = '<span class="material-symbols-outlined">check_circle</span> Photo Added'; btn4.disabled = true; btn4.className = 'step-btn done'; }
+      if (camBtn) { camBtn.disabled = true; camBtn.className = 'step-btn done'; }
+
+      // Unlock step 5: Completion
+      currentStep = 5;
+      document.getElementById('step5').classList.remove('inactive');
+      document.getElementById('btn5').disabled = false;
+    };
+    reader.readAsDataURL(file);
+  };
+
+  // ── Keep backward compat ──────────────────────────────────────────────
+  window.photoUploaded = function() { window.handlePhoto(document.getElementById('upload-input')); };
+
+
+  // ── SMS Helper ─────────────────────────────────────────────────────────
+  const FAST2SMS_KEY = ""; // Optional: add your Fast2SMS key here
+
+  async function sendSMS(phone, message) {
+    if (!phone || !FAST2SMS_KEY) return;
+    const clean = phone.toString().replace(/[^0-9]/g,'').replace(/^91/,'').slice(-10);
+    if (clean.length !== 10) return;
+    try {
+      await fetch("https://www.fast2sms.com/dev/bulkV2", {
+        method: "POST",
+        headers: { "authorization": FAST2SMS_KEY, "Content-Type": "application/json" },
+        body: JSON.stringify({ route:"q", message, language:"english", numbers: clean })
+      });
+    } catch(e) { console.log("SMS error:", e.message); }
+  }
+
+  // ── Format pickup time ─────────────────────────────────────────────────
+  function formatPickupTime(slot) {
+    const map = { morning:'Morning (8:00 AM – 12:00 PM)', afternoon:'Afternoon (12:00 PM – 4:00 PM)', evening:'Evening (4:00 PM – 8:00 PM)' };
+    return map[slot] || slot || 'Not specified';
+  }
+
+  // ── Fill donor details ─────────────────────────────────────────────────
+  function fillPickupDetails(food) {
+    const s = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val || '—'; };
+    s('pickup-org',      food.organisation || food.donorName || 'Anonymous Donor');
+    s('pickup-type',     (food.foodType || '').toUpperCase() + ' · ' + (food.quantity || ''));
+    s('pickup-location', food.location  || 'Not provided');
+    s('pickup-time',     formatPickupTime(food.pickupTime));
+    s('pickup-donor',    food.donorName || 'Unknown');
+    s('pickup-contact',  food.contact   || 'Not provided');
+    // Show donor's food photo if available
+    if (food.photo) {
+      const photoBox   = document.getElementById('donor-photo-box');
+      const photoImg   = document.getElementById('donor-food-photo');
+      if (photoBox && photoImg) {
+        photoImg.src         = food.photo;
+        photoBox.style.display = 'block';
+      }
+    }
+
+    if (food.cookedTime) {
+      const elapsed = Math.floor((Date.now() - new Date(food.cookedTime)) / 60000);
+      const el = document.getElementById('cooked-elapsed');
+      if (el) el.textContent = elapsed < 60 ? elapsed + ' MINS SINCE COOKED' : Math.floor(elapsed/60) + ' HRS SINCE COOKED';
+    }
+  }
+
+  function cacheFoodData(foodId, food) {
+    if (!foodId || !food) return;
+    try {
+      sessionStorage.setItem(foodCachePrefix + foodId, JSON.stringify(food));
+      sessionStorage.setItem(latestFoodCacheKey, JSON.stringify({ id: foodId, data: food }));
+    } catch (_) {}
+  }
+
+  function hydrateFromFoodCache(foodId) {
+    try {
+      if (foodId) {
+        const cached = sessionStorage.getItem(foodCachePrefix + foodId);
+        if (!cached) return false;
+        fillPickupDetails(JSON.parse(cached));
+        return true;
+      }
+      const latest = sessionStorage.getItem(latestFoodCacheKey);
+      if (!latest) return false;
+      const parsed = JSON.parse(latest);
+      if (!parsed?.data) return false;
+      currentFoodId = parsed.id || currentFoodId;
+      fillPickupDetails(parsed.data);
+      return true;
+    } catch (_) {
+      return false;
+    }
+  }
+
+  // ── Mark as Delivered — award points + notify ──────────────────────────
+  window.markDelivered = async function() {
+    if (!currentUser) return;
+    const btn = document.getElementById('btn5');
+    btn.textContent = 'Processing…';
+    btn.disabled    = true;
+
+    try {
+      const volSnap = await get(ref(db, 'users/' + currentUser.uid));
+      const volData = volSnap.exists() ? volSnap.val() : {};
+      const pts     = (volData.points || 0) + 50;
+      const dels    = (volData.deliveries || 0) + 1;
+      const volName = volData.name || currentUser.displayName || 'A volunteer';
+
+      // Update volunteer points
+      await update(ref(db, 'users/' + currentUser.uid), { points: pts, deliveries: dels });
+
+      // Get food listing and mark complete
+      let foodData = null;
+      if (currentFoodId) {
+        const foodSnap = await get(ref(db, 'food_listings/' + currentFoodId));
+        if (foodSnap.exists()) foodData = foodSnap.val();
+        await update(ref(db, 'food_listings/' + currentFoodId), {
+          status: 'completed', completedBy: currentUser.uid, completedAt: Date.now()
+        });
+      }
+
+      // Send notifications to Donor + NGOs
+      if (foodData) {
+        const usersSnap = await get(ref(db, 'users'));
+        if (usersSnap.exists()) {
+          const notifMsg = volName + ' has successfully delivered ' +
+            (foodData.quantity || 'food') + ' from ' +
+            (foodData.organisation || foodData.donorName || 'donor') +
+            ' at ' + (foodData.location || 'the pickup location') + '!';
+
+          const promises = [];
+          Object.entries(usersSnap.val()).forEach(([uid, userData]) => {
+            if (uid === foodData.donorId || userData.role === 'ngo') {
+              const notifRef = push(ref(db, 'notifications/' + uid));
+              promises.push(set(notifRef, {
+                id: notifRef.key, type: 'delivery_complete',
+                title: '✅ Food Delivered!', message: notifMsg,
+                volunteer: volName, foodId: currentFoodId || '',
+                photo: uploadedPhotoBase64 || null,
+                isRead: false, createdAt: Date.now()
+              }));
+            }
+          });
+          await Promise.all(promises);
+
+          // ── SMS to donor and NGOs ─────────────────────────────────────────
+          const smsDelivery = 'ZERVO: Your food has been successfully delivered by ' + volName + '! Quantity: ' + (foodData.quantity||'') + ' at ' + (foodData.location||'') + '. Thank you for contributing!';
+          Object.entries(usersSnap.val()).forEach(([uid, u]) => {
+            if ((uid === foodData.donorId || u.role === 'ngo') && u.phone) {
+              sendSMS(u.phone, smsDelivery);
+            }
+          });
+        }
+      }
+
+      // Update cache
+      const cacheKey = 'zervo_user_' + currentUser.uid;
+      const cached   = sessionStorage.getItem(cacheKey);
+      if (cached) { const d = JSON.parse(cached); d.points = pts; d.deliveries = dels; sessionStorage.setItem(cacheKey, JSON.stringify(d)); }
+
+      btn.innerHTML = '<span class="material-symbols-outlined">check_circle</span> Delivered!';
+      btn.className = 'step-btn done';
+      // ── Send SMS to donor ─────────────────────────────────────────────
+      if (foodData && foodData.contact) {
+        const donorSMS = 'ZERVO: Your food donation has been delivered successfully by ' +
+          volName + '! Thank you for contributing to Zero Hunger. - ZERVO Team';
+        sendSMS(foodData.contact, donorSMS);
+      }
+
+      alert('🎉 Delivery complete! +50 points!\nDonor & NGOs notified ✅\nTotal: ' + pts + ' pts');
+      window.location.href = 'volunteer-dashboard.html';
+    } catch (err) {
+      console.error(err);
+      btn.textContent = 'Mark as Delivered';
+      btn.disabled    = false;
+      alert('Error. Please try again.');
+    }
+  };
+
+  // ── Profile dropdown toggle ─────────────────────────────────────────────
+  document.querySelector('.zervo-profile-rtrig').addEventListener('click', (e) => {
+    e.stopPropagation();
+    const d = document.querySelector('.zervo-profile-rdown');
+    const open = d.style.opacity === '1';
+    d.style.opacity    = open ? '0' : '1';
+    d.style.visibility = open ? 'hidden' : 'visible';
+    d.style.transform  = open ? 'scale(0.95) translateY(-0.5rem)' : 'scale(1) translateY(0)';
+    d.style.pointerEvents = open ? 'none' : 'auto';
+  });
+  document.addEventListener('click', () => {
+    const d = document.querySelector('.zervo-profile-rdown');
+    d.style.opacity = '0'; d.style.visibility = 'hidden';
+    d.style.transform = 'scale(0.95) translateY(-0.5rem)'; d.style.pointerEvents = 'none';
+  });
+
+  // ── Logout ──────────────────────────────────────────────────────────────
+  document.getElementById('logout-btn').addEventListener('click', async (e) => {
+    e.preventDefault();
+    sessionStorage.clear();
+    await signOut(auth);
+    window.location.href = 'login.html';
+  });
+
+  // ── Load data ───────────────────────────────────────────────────────────
+  onAuthStateChanged(auth, async (user) => {
+    if (!user) { window.location.href = 'login.html'; return; }
+    currentUser = user;
+    const params = new URLSearchParams(window.location.search);
+    currentFoodId = params.get('foodId');
+
+    // Render instantly from session cache while fresh data loads.
+    hydrateFromFoodCache(currentFoodId);
+
+    // Fill profile dropdown
+    const cached = sessionStorage.getItem('zervo_user_' + user.uid);
+    if (cached) {
+      const d = JSON.parse(cached);
+      const el = document.getElementById('drop-name');
+      const em = document.getElementById('drop-email');
+      if (el) el.textContent = d.name || user.displayName || 'User';
+      if (em) em.textContent = d.email || user.email || '';
+      // Show initials in avatar
+      const av = document.querySelector('.zervo-profile-rtrig div');
+      if (av && d.name) av.textContent = d.name.split(' ').map(n=>n[0]).join('').substring(0,2).toUpperCase();
+    }
+
+    // Load food listing (cache-first, then fresh network data)
+    try {
+      if (currentFoodId) {
+        const snap = await get(ref(db, 'food_listings/' + currentFoodId));
+        if (snap.exists()) {
+          const food = snap.val();
+          fillPickupDetails(food);
+          cacheFoodData(currentFoodId, food);
+        }
+      } else {
+        const snap = await get(ref(db, 'food_listings'));
+        if (snap.exists()) {
+          const listings = Object.values(snap.val());
+          let latest = null;
+          for (const item of listings) {
+            if (item?.status !== 'available') continue;
+            if (!latest || Number(item.createdAt || 0) > Number(latest.createdAt || 0)) {
+              latest = item;
+            }
+          }
+          if (latest) {
+            currentFoodId = latest.id || currentFoodId;
+            fillPickupDetails(latest);
+            cacheFoodData(currentFoodId, latest);
+          }
+        }
+      }
+    } catch (err) { console.error(err); }
+  });
+</script>
+</body>
+</html>

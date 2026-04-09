@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://www.gstatic.com" rel="preconnect" crossorigin=""/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&amp;family=Plus+Jakarta+Sans:wght@700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "tertiary-fixed": "#b9f474",
+              "surface-container-lowest": "#ffffff",
+              "on-tertiary": "#ffffff",
+              "surface-container": "#e9f0e1",
+              "on-primary": "#ffffff",
+              "outline-variant": "#bfcaba",
+              "secondary-fixed-dim": "#ffb786",
+              "on-error-container": "#93000a",
+              "secondary-fixed": "#ffdcc6",
+              "on-secondary-fixed-variant": "#723600",
+              "tertiary-fixed-dim": "#9ed75b",
+              "on-tertiary-fixed-variant": "#2e4f00",
+              "tertiary": "#386000",
+              "on-primary-fixed-variant": "#005312",
+              "surface-container-highest": "#dee5d6",
+              "primary-fixed": "#a3f69c",
+              "inverse-primary": "#88d982",
+              "secondary-container": "#fc820c",
+              "secondary": "#964900",
+              "on-tertiary-fixed": "#0f2000",
+              "primary-container": "#2e7d32",
+              "surface": "#f5fced",
+              "on-primary-container": "#cbffc2",
+              "on-error": "#ffffff",
+              "inverse-surface": "#2c3228",
+              "surface-bright": "#f5fced",
+              "on-secondary-fixed": "#311300",
+              "on-tertiary-container": "#d6ffa5",
+              "surface-variant": "#dee5d6",
+              "surface-tint": "#1b6d24",
+              "error": "#ba1a1a",
+              "background": "#f5fced",
+              "primary-fixed-dim": "#88d982",
+              "on-surface": "#171d14",
+              "on-secondary": "#ffffff",
+              "on-primary-fixed": "#002204",
+              "primary": "#0d631b",
+              "surface-dim": "#d5dcce",
+              "on-background": "#171d14",
+              "inverse-on-surface": "#ecf3e4",
+              "surface-container-low": "#eff6e7",
+              "surface-container-high": "#e3ebdc",
+              "outline": "#707a6c",
+              "on-surface-variant": "#40493d",
+              "on-secondary-container": "#5e2c00",
+              "error-container": "#ffdad6",
+              "tertiary-container": "#4a7b00"
+            },
+            fontFamily: {
+              "headline": ["Plus Jakarta Sans"],
+              "body": ["Manrope"],
+              "label": ["Manrope"]
+            },
+            borderRadius: {"DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px"},
+          },
+        },
+      };
+    </script>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      }
+      body {
+        font-family: 'Manrope', sans-serif;
+      }
+      h1, h2, h3 {
+        font-family: 'Plus Jakarta Sans', sans-serif;
+      }
+      .popup-hidden {
+        display: none;
+      }
+    </style>
+</head>
+<body class="bg-surface text-on-surface min-h-screen selection:bg-primary-fixed selection:text-on-primary-fixed">
+<!-- TopNavBar -->
+<header class="bg-surface/80 backdrop-blur-md dark:bg-zinc-950/80 shadow-sm dark:shadow-none fixed top-0 w-full z-50">
+<div class="flex justify-between items-center px-8 py-4 max-w-screen-2xl mx-auto">
+<div class="flex items-center gap-8">
+<a href="index.html" class="text-2xl font-extrabold tracking-tighter text-green-800 dark:text-green-400 hover:opacity-80">ZERVO</a>
+</div>
+<div class="flex items-center gap-4 relative">
+<!-- Notification Trigger -->
+<!-- Notifications -->
+<div class="relative zervo-notifications" id="notif-wrapper">
+    <button class="zervo-notifications-btn p-2 rounded-full hover:bg-green-50 dark:hover:bg-green-900/20 text-zinc-600 dark:text-zinc-400 transition-colors active:scale-95 duration-200 relative flex items-center justify-center">
+        <span class="material-symbols-outlined pointer-events-none">notifications</span>
+        <span class="zervo-notifications-badge hidden absolute top-0.5 right-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-error text-[10px] font-bold text-white shadow-sm pointer-events-none"></span>
+    </button>
+    <!-- Dropdown Panel -->
+    <div class="zervo-notifications-dropdown hidden absolute right-0 mt-2 sm:w-[360px] w-screen max-w-[calc(100vw-2rem)] bg-surface dark:bg-zinc-900 rounded-2xl shadow-xl border border-outline-variant/20 overflow-hidden z-50 transform origin-top transition-all duration-200 opacity-0 scale-95 pointer-events-none flex flex-col">
+        <div class="p-4 border-b border-outline-variant/10 flex justify-between items-center w-full bg-surface-container-lowest/50 backdrop-blur-sm">
+            <h3 class="font-headline font-bold text-on-surface">Notifications</h3>
+            <button class="zervo-notifications-mark-all text-xs font-bold text-primary hover:text-green-800 transition-colors cursor-pointer">Mark as read</button>
+        </div>
+        <div class="zervo-notifications-list w-full max-h-[60vh] overflow-y-auto"></div>
+        <div class="zervo-notifications-empty hidden py-12 px-6 flex flex-col items-center justify-center text-center gap-3 w-full border-t border-outline-variant/5">
+            <div class="w-16 h-16 rounded-full bg-surface-variant/20 flex items-center justify-center text-primary">
+                <span class="material-symbols-outlined text-3xl">notifications_off</span>
+            </div>
+            <p class="text-on-surface-variant font-medium text-sm">No notifications yet</p>
+        </div>
+    </div>
+</div>
+<!-- Profile Dropdown -->
+<div class="relative zervo-profile-wrapper">
+    <button class="zervo-profile-rtrig flex items-center justify-center rounded-full ring-2 ring-transparent hover:ring-primary/20 focus:ring-primary/40 focus:outline-none transition-all duration-200 active:scale-95 overflow-hidden" aria-haspopup="true" aria-expanded="false">
+        <div class="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center text-primary font-bold text-sm font-headline">
+            SM
+        </div>
+    </button>
+    <!-- Dropdown Panel -->
+    <div class="zervo-profile-rdown absolute right-0 mt-3 w-64 bg-surface-container-lowest rounded-2xl shadow-xl border border-outline-variant/20 z-50 overflow-hidden transform origin-top-right transition-all duration-200 ease-out flex flex-col opacity-0 scale-95 -translate-y-2 invisible pointer-events-none">
+        <div class="p-4 border-b border-outline-variant/10 bg-surface-container-low/50">
+            <p class="font-headline font-bold text-on-surface text-sm truncate">Sarah Miller</p>
+            <p class="text-on-surface-variant font-medium text-xs mt-0.5 truncate">Green Valley Shelter</p>
+        </div>
+        <div class="py-2">
+            <a href="editprofile.html" class="flex items-center w-full px-4 py-2.5 text-sm font-medium text-on-surface hover:bg-surface-variant/40 hover:text-primary transition-colors focus:outline-none" role="menuitem">
+                <span class="material-symbols-outlined mr-3 text-[20px]">person</span> View Profile
+            </a>
+
+        </div>
+        <div class="py-2 border-t border-outline-variant/10">
+            <a href="login.html" class="flex items-center w-full px-4 py-2.5 text-sm font-bold text-error hover:bg-error/10 transition-colors focus:outline-none" role="menuitem">
+                <span class="material-symbols-outlined mr-3 text-[20px]">logout</span> Logout
+            </a>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+</header>
+<main class="pt-32 pb-20 px-6 max-w-2xl mx-auto">
+<!-- Content Container -->
+<div class="space-y-12">
+<!-- Header Section -->
+<div class="text-center space-y-4">
+<h1 class="text-4xl md:text-5xl font-extrabold tracking-tight text-on-surface">Send Request</h1>
+<p class="text-on-surface-variant font-medium">Connect your organization with surplus food resources in your community.</p>
+</div>
+<!-- Form Section (Bento Inspired Minimalist Card) -->
+<div class="bg-surface-container-low rounded-xl p-8 md:p-12 shadow-sm border border-outline-variant/10">
+<form class="space-y-8" onsubmit="return false;">
+<!-- Input Group: Organization -->
+<div class="space-y-2">
+<label class="text-sm font-bold tracking-wide text-primary-container px-4 uppercase" for="org-name">Organization Details</label>
+<div class="relative group">
+<div class="absolute inset-y-0 left-5 flex items-center pointer-events-none text-outline group-focus-within:text-primary transition-colors">
+<span class="material-symbols-outlined">corporate_fare</span>
+</div>
+<input class="w-full pl-14 pr-6 py-5 bg-surface-container-lowest border-none rounded-full text-on-surface placeholder:text-outline-variant focus:ring-2 focus:ring-primary/20 transition-all shadow-sm" id="org-name" placeholder="Organization Name" type="text"/>
+</div>
+</div>
+<!-- Input Group: Address -->
+<div class="space-y-2">
+<div class="relative group">
+<div class="absolute inset-y-0 left-5 flex items-center pointer-events-none text-outline group-focus-within:text-primary transition-colors">
+<span class="material-symbols-outlined">location_on</span>
+</div>
+<input class="w-full pl-14 pr-6 py-5 bg-surface-container-lowest border-none rounded-full text-on-surface placeholder:text-outline-variant focus:ring-2 focus:ring-primary/20 transition-all shadow-sm" id="address" placeholder="Delivery Address" type="text"/>
+</div>
+</div>
+<!-- Input Group: Contact -->
+<div class="space-y-2">
+<div class="relative group">
+<div class="absolute inset-y-0 left-5 flex items-center pointer-events-none text-outline group-focus-within:text-primary transition-colors">
+<span class="material-symbols-outlined">call</span>
+</div>
+<input class="w-full pl-14 pr-6 py-5 bg-surface-container-lowest border-none rounded-full text-on-surface placeholder:text-outline-variant focus:ring-2 focus:ring-primary/20 transition-all shadow-sm" id="contact" placeholder="Contact Number" type="tel"/>
+</div>
+</div>
+<!-- Action Button -->
+<div class="pt-4">
+<button id="submit-btn" class="w-full py-5 bg-primary text-on-primary font-bold text-lg rounded-full shadow-lg shadow-primary/20 hover:bg-primary-container hover:scale-[1.02] active:scale-95 transition-all flex justify-center items-center gap-2">
+<span id="submit-label">Submit Request</span>
+<span class="material-symbols-outlined">send</span>
+</button>
+</div>
+</form>
+</div>
+</div>
+</main>
+<script>
+  function togglePopup(id) {
+    const popup = document.getElementById(id);
+    const otherId = id === "notification-popup" ? "profile-popup" : "notification-popup";
+    const otherPopup = document.getElementById(otherId);
+    if (otherPopup) otherPopup.classList.add("popup-hidden");
+    if (popup) popup.classList.toggle("popup-hidden");
+  }
+
+  // Close legacy popups only if those IDs exist.
+  window.addEventListener("click", function(e) {
+    if (!e.target.closest(".relative")) {
+      const notificationPopup = document.getElementById("notification-popup");
+      const profilePopup = document.getElementById("profile-popup");
+      if (notificationPopup) notificationPopup.classList.add("popup-hidden");
+      if (profilePopup) profilePopup.classList.add("popup-hidden");
+    }
+  });
+</script>
+<script type="module" src="assets/js/notifications.js"></script>
+<script type="module" src="assets/js/profile.js"></script>
+
+<script type="module">
+  import { initializeApp }               from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+  import { getDatabase, ref, push, set, get } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+  import { normalizePhone, queueSms } from "./assets/js/sms-notify.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyB8ynZXXUV7MJLbZNd42CEUpZDRWXoHM30",
+    authDomain: "zervo-9585.firebaseapp.com",
+    projectId: "zervo-9585",
+    storageBucket: "zervo-9585.firebasestorage.app",
+    messagingSenderId: "892339796416",
+    appId: "1:892339796416:web:f9810482ae1c40be6b3025",
+    databaseURL: "https://zervo-9585-default-rtdb.firebaseio.com"
+  };
+
+  const app  = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db   = getDatabase(app);
+  let currentUser = null;
+  function showToast(msg, isError = false) {
+    let t = document.getElementById('req-toast');
+    if (!t) {
+      t = document.createElement('div');
+      t.id = 'req-toast';
+      t.style.cssText = 'position:fixed;top:80px;left:50%;transform:translateX(-50%);z-index:9999;padding:12px 24px;border-radius:999px;font-weight:700;font-size:14px;box-shadow:0 4px 20px rgba(0,0,0,0.15);display:none;font-family:Manrope,sans-serif;';
+      document.body.appendChild(t);
+    }
+    t.textContent      = msg;
+    t.style.background = isError ? '#ba1a1a' : '#0d631b';
+    t.style.color      = '#fff';
+    t.style.display    = 'block';
+    setTimeout(() => t.style.display = 'none', 3500);
+  }
+
+  onAuthStateChanged(auth, (user) => {
+    if (user) currentUser = user;
+    else window.location.href = 'login.html';
+  });
+
+  document.getElementById('submit-btn').addEventListener('click', async () => {
+    if (!currentUser) return;
+    const orgName = document.getElementById('org-name')?.value.trim();
+    const address = document.getElementById('address')?.value.trim();
+    const contact = document.getElementById('contact')?.value.trim();
+
+    if (!orgName) { showToast('❌ Please enter your organization name', true); return; }
+    if (!address) { showToast('❌ Please enter your delivery address', true); return; }
+    if (!contact) { showToast('❌ Please enter your contact number', true); return; }
+
+    const btn   = document.getElementById('submit-btn');
+    const label = document.getElementById('submit-label');
+    btn.disabled      = true;
+    label.textContent = 'Sending…';
+
+    try {
+      const reqRef = push(ref(db, 'food_requests'));
+      await set(reqRef, {
+        id: reqRef.key, receiverId: currentUser.uid,
+        organisation: orgName, address, contact,
+        status: 'pending', createdAt: Date.now()
+      });
+
+      // Notify all volunteers (in-app + SMS queue)
+      const usersSnap = await get(ref(db, 'users'));
+      if (usersSnap.exists()) {
+        const tasks = [];
+        const msg = orgName + ' needs food delivery at ' + address + '. Contact: ' + contact;
+        const smsBody = 'ZERVO: Food request — ' + orgName + ' at ' + address + '. Open app for details.';
+
+        for (const [uid, u] of Object.entries(usersSnap.val())) {
+          const role = String(u?.role ?? '').trim().toLowerCase();
+          if (role !== 'volunteer') continue;
+
+          const phoneDigits = normalizePhone(u.phone ?? u.mobile);
+          const nRef = push(ref(db, 'notifications/' + uid));
+          tasks.push(set(nRef, {
+            id: nRef.key,
+            type: 'food_request',
+            title: '🤝 New Food Request!',
+            message: msg,
+            requestId: reqRef.key,
+            isRead: false,
+            createdAt: Date.now(),
+            toPhone: phoneDigits || null,
+          }));
+          tasks.push(queueSms(db, {
+            toDigits: phoneDigits,
+            body: smsBody,
+            userUid: uid,
+            type: 'food_request',
+            extra: { requestId: reqRef.key },
+          }));
+        }
+        await Promise.all(tasks);
+      }
+
+      showToast('✅ Request sent! Volunteers notified.');
+      document.getElementById('org-name').value = '';
+      document.getElementById('address').value  = '';
+      document.getElementById('contact').value  = '';
+    } catch (err) {
+      console.error(err);
+      showToast('❌ Error sending request. Try again.', true);
+    } finally {
+      btn.disabled = false;
+      label.textContent = 'Submit Request';
+    }
+  });
+</script>
+</body></html>

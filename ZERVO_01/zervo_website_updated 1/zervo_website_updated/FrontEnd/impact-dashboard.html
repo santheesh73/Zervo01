@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://www.gstatic.com" rel="preconnect" crossorigin=""/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Manrope:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "on-primary": "#ffffff",
+              "surface-container-lowest": "#ffffff",
+              "secondary-fixed": "#ffdcc6",
+              "on-tertiary": "#ffffff",
+              "background": "#f5fced",
+              "tertiary-container": "#4a7b00",
+              "on-secondary": "#ffffff",
+              "secondary-container": "#fc820c",
+              "primary-fixed": "#a3f69c",
+              "surface-dim": "#d5dcce",
+              "secondary": "#964900",
+              "on-background": "#171d14",
+              "tertiary": "#386000",
+              "on-tertiary-container": "#d6ffa5",
+              "surface-container-high": "#e3ebdc",
+              "primary-fixed-dim": "#88d982",
+              "surface-container-low": "#eff6e7",
+              "on-secondary-fixed-variant": "#723600",
+              "secondary-fixed-dim": "#ffb786",
+              "on-surface-variant": "#40493d",
+              "error-container": "#ffdad6",
+              "tertiary-fixed-dim": "#9ed75b",
+              "on-primary-container": "#cbffc2",
+              "surface-container-highest": "#dee5d6",
+              "surface-bright": "#f5fced",
+              "surface": "#f5fced",
+              "on-secondary-container": "#5e2c00",
+              "inverse-on-surface": "#ecf3e4",
+              "primary": "#0d631b",
+              "on-tertiary-fixed-variant": "#2e4f00",
+              "on-surface": "#171d14",
+              "outline": "#707a6c",
+              "on-error-container": "#93000a",
+              "inverse-surface": "#2c3228",
+              "primary-container": "#2e7d32",
+              "outline-variant": "#bfcaba",
+              "on-error": "#ffffff",
+              "inverse-primary": "#88d982",
+              "error": "#ba1a1a",
+              "surface-container": "#e9f0e1",
+              "surface-tint": "#1b6d24",
+              "on-primary-fixed-variant": "#005312",
+              "surface-variant": "#dee5d6",
+              "on-tertiary-fixed": "#0f2000",
+              "on-primary-fixed": "#002204",
+              "tertiary-fixed": "#b9f474",
+              "on-secondary-fixed": "#311300"
+            },
+            fontFamily: {
+              "headline": ["Plus Jakarta Sans"],
+              "body": ["Manrope"],
+              "label": ["Manrope"]
+            },
+            borderRadius: {"DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      }
+      .glass-effect {
+        backdrop-filter: blur(24px);
+        -webkit-backdrop-filter: blur(24px);
+      }
+    </style>
+</head>
+<body class="bg-background font-body text-on-background selection:bg-primary-fixed selection:text-on-primary-fixed antialiased">
+<!-- Top Navigation Bar -->
+<nav class="fixed top-0 w-full z-50 bg-[#f5fced]/80 dark:bg-stone-900/80 backdrop-blur-xl flex justify-between items-center px-6 py-4 w-full">
+<div class="flex items-center gap-2">
+<a href="index.html" class="font-headline font-extrabold text-2xl text-primary tracking-tight">ZERVO</a>
+</div>
+<div class="flex items-center gap-4">
+<!-- Notifications -->
+<div class="relative zervo-notifications" id="notif-wrapper">
+    <button class="zervo-notifications-btn p-2 rounded-full hover:bg-primary/5 text-primary transition-colors active:scale-95 duration-200 relative flex items-center justify-center">
+        <span class="material-symbols-outlined pointer-events-none">notifications</span>
+        <span class="zervo-notifications-badge hidden absolute top-0.5 right-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-error text-[10px] font-bold text-white shadow-sm pointer-events-none"></span>
+    </button>
+    <!-- Dropdown Panel -->
+    <div class="zervo-notifications-dropdown hidden absolute right-0 mt-2 sm:w-[360px] w-screen max-w-[calc(100vw-2rem)] bg-surface dark:bg-zinc-900 rounded-2xl shadow-xl border border-outline-variant/20 overflow-hidden z-50 transform origin-top transition-all duration-200 opacity-0 scale-95 pointer-events-none flex flex-col">
+        <div class="p-4 border-b border-outline-variant/10 flex justify-between items-center w-full bg-surface-container-lowest/50 backdrop-blur-sm">
+            <h3 class="font-headline font-bold text-on-surface">Notifications</h3>
+            <button class="zervo-notifications-mark-all text-xs font-bold text-primary hover:text-green-800 transition-colors cursor-pointer">Mark as read</button>
+        </div>
+        <div class="zervo-notifications-list w-full max-h-[60vh] overflow-y-auto"></div>
+        <div class="zervo-notifications-empty hidden py-12 px-6 flex flex-col items-center justify-center text-center gap-3 w-full border-t border-outline-variant/5">
+            <div class="w-16 h-16 rounded-full bg-surface-variant/20 flex items-center justify-center text-primary">
+                <span class="material-symbols-outlined text-3xl">notifications_off</span>
+            </div>
+            <p class="text-on-surface-variant font-medium text-sm">No notifications yet</p>
+        </div>
+    </div>
+</div>
+<!-- Profile Dropdown -->
+<div class="relative zervo-profile-wrapper">
+    <button class="zervo-profile-rtrig flex items-center justify-center rounded-full ring-2 ring-transparent hover:ring-primary/20 focus:ring-primary/40 focus:outline-none transition-all duration-200 active:scale-95 overflow-hidden" aria-haspopup="true" aria-expanded="false">
+        <div class="w-10 h-10 border-2 border-primary/20 rounded-full overflow-hidden">
+            <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuCcePFs6Gd6MkAjvPopZNI1Mu_OSSdyZFpyvAWW7BUi7t3NirADmQGsth7JorkTMM5PuRcv2iRAl1BlN6iFqS47pebGbp-Stt-snlXyGFHpOcuzmltRj7SwYuc8bIwgXOaQRzm74LHwkXjxUU1MKA7DDnEb30I0xYOO9mATGgeyq27iNwOHr_jIlEP6X10s1J2BjYFbuhpgmWn7YI0iiuyvR6uh8V7JQ5DpwpylHUAeAjxSIyQZRdieCW7P_gbAue9IyE6HRa8DuKU" alt="Sarah Miller's avatar" class="w-full h-full object-cover" />
+        </div>
+    </button>
+    <!-- Dropdown Panel -->
+    <div class="zervo-profile-rdown absolute right-0 mt-3 w-64 bg-surface-container-lowest rounded-2xl shadow-xl border border-outline-variant/20 z-50 overflow-hidden transform origin-top-right transition-all duration-200 ease-out flex flex-col opacity-0 scale-95 -translate-y-2 invisible pointer-events-none">
+        <div class="p-4 border-b border-outline-variant/10 bg-surface-container-low/50">
+            <p class="font-headline font-bold text-on-surface text-sm truncate">Sarah Miller</p>
+            <p class="text-on-surface-variant font-medium text-xs mt-0.5 truncate">sarah@greenvalley.org</p>
+        </div>
+        <div class="py-2">
+            <a href="editprofile.html" class="flex items-center w-full px-4 py-2.5 text-sm font-medium text-on-surface hover:bg-surface-variant/40 hover:text-primary transition-colors focus:outline-none" role="menuitem">
+                <span class="material-symbols-outlined mr-3 text-[20px]">person</span> View Profile
+            </a>
+
+        </div>
+        <div class="py-2 border-t border-outline-variant/10">
+            <a href="login.html" class="flex items-center w-full px-4 py-2.5 text-sm font-bold text-error hover:bg-error/10 transition-colors focus:outline-none" role="menuitem">
+                <span class="material-symbols-outlined mr-3 text-[20px]">logout</span> Logout
+            </a>
+        </div>
+    </div>
+</div>
+</div>
+</nav>
+<div class="flex min-h-screen pt-20 pb-24 md:pb-0">
+<!-- Side Navigation Bar (Web) -->
+<!-- Main Content Canvas -->
+<main class="flex-grow flex flex-col items-center justify-center px-6 lg:px-12 py-12">
+<div class="max-w-6xl w-full flex flex-col items-center text-center gap-16">
+<!-- Hero Section: Editorial Messaging -->
+<header class="flex flex-col items-center gap-6 max-w-3xl">
+<div class="bg-tertiary-fixed text-on-tertiary-fixed px-6 py-2 rounded-full font-label text-sm font-bold tracking-widest uppercase">
+                        Our Daily Growth
+                    </div>
+<h1 class="font-headline font-extrabold text-5xl md:text-7xl text-on-background tracking-tight leading-tight">
+                        Feeding the <span class="text-primary italic">Community</span> through Conscious Surplus.
+                    </h1>
+</header>
+<!-- Impact Metrics Bento Grid-style Display -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8 w-full max-w-4xl">
+<!-- Metric: Meals Served -->
+<div class="bg-surface-container-low p-12 rounded-xl flex flex-col items-center justify-center gap-4 relative overflow-hidden transition-all hover:bg-surface-container-lowest">
+<div class="absolute -top-10 -right-10 w-40 h-40 bg-primary/5 rounded-full blur-3xl"></div>
+<span class="text-primary font-headline font-black text-7xl md:text-8xl tracking-tighter">12.4k</span>
+<div class="flex flex-col items-center">
+<h3 class="font-headline font-bold text-xl text-on-surface">Meals Served</h3>
+<p class="text-on-surface-variant font-medium text-sm">Nutritious meals rescued this month</p>
+</div>
+</div>
+<!-- Metric: Active Partners -->
+<div class="bg-surface-container-low p-12 rounded-xl flex flex-col items-center justify-center gap-4 relative overflow-hidden transition-all hover:bg-surface-container-lowest">
+<div class="absolute -bottom-10 -left-10 w-40 h-40 bg-secondary/5 rounded-full blur-3xl"></div>
+<span class="text-secondary font-headline font-black text-7xl md:text-8xl tracking-tighter">142</span>
+<div class="flex flex-col items-center">
+<h3 class="font-headline font-bold text-xl text-on-surface">Active Partners</h3>
+<p class="text-on-surface-variant font-medium text-sm">Local restaurants and shelters united</p>
+</div>
+</div>
+</div>
+<!-- Featured Impact Visual -->
+<!-- Primary CTA Section -->
+<div class="flex flex-col items-center gap-8 w-full">
+<p class="text-on-surface-variant max-w-xl text-lg font-medium">
+                        Ready to contribute your surplus? Join our network of conscious partners and help us bridge the gap between harvest and hunger.
+                    </p>
+<a href="submission.html" class="group relative bg-primary text-white px-12 py-6 rounded-full font-headline font-extrabold text-xl shadow-lg shadow-primary/20 hover:scale-105 active:scale-95 transition-all overflow-hidden inline-flex">
+<div class="absolute inset-0 bg-white/10 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
+<span class="relative flex items-center gap-3">
+                            Serve Food
+                            <span class="material-symbols-outlined">arrow_forward</span>
+</span>
+</a>
+</div>
+</div>
+</main>
+</div>
+<script type="module" src="assets/js/notifications.js"></script>
+<script type="module" src="assets/js/profile.js"></script>
+</body></html>

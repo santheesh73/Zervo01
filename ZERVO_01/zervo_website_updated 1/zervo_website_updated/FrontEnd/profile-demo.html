@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile Dropdown React Component Review</title>
+    <!-- Tailwind CSS -->
+    <link href="https://fonts.googleapis.com" rel="preconnect"/>
+    <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin/>
+    <link href="https://unpkg.com" rel="preconnect" crossorigin/>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    
+    <!-- React & ReactDOM -->
+    <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+    <!-- Babel Standalone (Compiles JSX on the fly in the browser) -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <!-- Tailwind Config Match -->
+    <script id="tailwind-config">
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#0d631b",
+                        "surface": "#f5fced",
+                        "on-surface": "#171d14",
+                        "on-surface-variant": "#40493d",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-container-low": "#eff6e7",
+                        "surface-variant": "#dee5d6",
+                        "outline-variant": "#bfcaba",
+                        "error": "#ba1a1a",
+                    },
+                    fontFamily: {
+                        "headline": ["Plus Jakarta Sans"],
+                        "body": ["Manrope"],
+                        "label": ["Manrope"]
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        body { background-color: #f5fced; }
+    </style>
+</head>
+<body class="bg-surface font-body text-on-surface h-screen">
+
+    <!-- Top Navigation Bar (Mockup Context) -->
+    <header class="bg-surface-container-low/80 backdrop-blur-xl border-b border-outline-variant/20 flex justify-between items-center px-8 py-4 w-full h-20">
+        <div class="text-2xl font-black text-primary font-headline tracking-tighter">ZERVO (React Demo)</div>
+        
+        <!-- The React Root Element -->
+        <div id="react-profile-root"></div>
+    </header>
+
+    <main class="flex flex-col items-center justify-center p-12 text-center h-[calc(100vh-5rem)]">
+        <h1 class="text-4xl font-headline font-extrabold mb-4">React Component Preview</h1>
+        <p class="text-on-surface-variant max-w-lg mb-8">
+            This page utilizes standard React and Babel loaded via CDN to run your React code. Click the user avatar in the top right to interact with your new React-based profile dropdown.
+        </p>
+        <div class="p-6 bg-surface-container-highest rounded-2xl flex flex-col gap-4 max-w-md w-full text-left">
+            <h3 class="font-bold text-lg font-headline">Features Configured:</h3>
+            <ul class="list-disc pl-5 text-sm space-y-2 text-on-surface-variant">
+                <li>Click outside the dropdown to close it</li>
+                <li>Press <kbd class="px-2 py-1 bg-surface rounded">Esc</kbd> to exit accessibly</li>
+                <li>Responsive fade & slide animation hooks</li>
+                <li>Auto-initials fallback if no image provided</li>
+                <li>Strict usage of clean standard React hooks</li>
+            </ul>
+        </div>
+    </main>
+
+    <!-- Component Definition & Mounting logic -->
+    <script type="text/babel">
+        const { useState, useEffect, useRef } = React;
+
+        // 1. Definition of the Component 
+        // (Identical to what was written in ProfileDropdown.jsx for this demo wrapper)
+        const ProfileDropdown = ({ 
+            user = {
+                name: 'Sarah Miller',
+                email: 'sarah@greenvalley.org',
+                avatarUrl: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCcePFs6Gd6MkAjvPopZNI1Mu_OSSdyZFpyvAWW7BUi7t3NirADmQGsth7JorkTMM5PuRcv2iRAl1BlN6iFqS47pebGbp-Stt-snlXyGFHpOcuzmltRj7SwYuc8bIwgXOaQRzm74LHwkXjxUU1MKA7DDnEb30I0xYOO9mATGgeyq27iNwOHr_jIlEP6X10s1J2BjYFbuhpgmWn7YI0iiuyvR6uh8V7JQ5DpwpylHUAeAjxSIyQZRdieCW7P_gbAue9IyE6HRa8DuKU'
+            },
+            onLogout = () => alert('Logout Clicked!'),
+            onProfileClick = () => alert('View Profile Clicked!')
+        }) => {
+            const [isOpen, setIsOpen] = useState(false);
+            const dropdownRef = useRef(null);
+            const triggerRef = useRef(null);
+
+            useEffect(() => {
+                const handleClickOutside = (event) => {
+                    if (dropdownRef.current && !dropdownRef.current.contains(event.target) &&
+                        triggerRef.current && !triggerRef.current.contains(event.target)) {
+                        setIsOpen(false);
+                    }
+                };
+                document.addEventListener('mousedown', handleClickOutside);
+                return () => document.removeEventListener('mousedown', handleClickOutside);
+            }, []);
+
+            useEffect(() => {
+                const handleKeyDown = (event) => {
+                    if (event.key === 'Escape') {
+                        setIsOpen(false);
+                        if (triggerRef.current) triggerRef.current.focus();
+                    }
+                };
+                if (isOpen) document.addEventListener('keydown', handleKeyDown);
+                return () => document.removeEventListener('keydown', handleKeyDown);
+            }, [isOpen]);
+
+            const getInitials = (name) => {
+                if (!name) return '?';
+                return name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
+            };
+
+            return (
+                <div className="relative inline-block text-left font-body">
+                    <button
+                        ref={triggerRef}
+                        type="button"
+                        onClick={() => setIsOpen(!isOpen)}
+                        aria-expanded={isOpen}
+                        className="flex items-center justify-center rounded-full ring-2 ring-transparent focus:outline-none focus:ring-primary/50 hover:ring-primary/20 transition-all duration-200 active:scale-95 overflow-hidden shadow-sm"
+                    >
+                        {user.avatarUrl ? (
+                            <div className="w-12 h-12 border-2 border-primary/20 rounded-full overflow-hidden">
+                                <img src={user.avatarUrl} alt={`${user.name}'s avatar`} className="w-full h-full object-cover" />
+                            </div>
+                        ) : (
+                            <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold tracking-wider">
+                                {getInitials(user.name)}
+                            </div>
+                        )}
+                    </button>
+
+                    <div
+                        ref={dropdownRef}
+                        role="menu"
+                        className={`absolute right-0 mt-3 w-64 bg-surface-container-lowest dark:bg-zinc-900 rounded-2xl shadow-xl border border-outline-variant/20 z-50 overflow-hidden transform origin-top-right transition-all duration-200 ease-out flex flex-col
+                        ${isOpen ? 'opacity-100 scale-100 translate-y-0 visible' : 'opacity-0 scale-95 -translate-y-2 invisible pointer-events-none'}`}
+                    >
+                        <div className="p-4 border-b border-outline-variant/10 bg-surface-container-low/50">
+                            <p className="font-headline font-bold text-on-surface text-sm truncate">{user.name}</p>
+                            {user.email && <p className="text-on-surface-variant font-medium text-xs mt-0.5 truncate">{user.email}</p>}
+                        </div>
+
+                        <div className="py-2">
+                            <button onClick={() => { setIsOpen(false); onProfileClick(); }} className="flex items-center w-full px-4 py-2.5 text-sm font-medium text-on-surface hover:bg-surface-variant/40 hover:text-primary transition-colors focus:bg-surface-variant/40 focus:outline-none">
+                                <span className="material-symbols-outlined mr-3 text-[20px]">person</span>
+                                View Profile
+                            </button>
+                        </div>
+
+                        <div className="py-2 border-t border-outline-variant/10">
+                            <button onClick={() => { setIsOpen(false); onLogout(); }} className="flex items-center w-full px-4 py-2.5 text-sm font-bold text-error hover:bg-error/10 transition-colors focus:bg-error/10 focus:outline-none">
+                                <span className="material-symbols-outlined mr-3 text-[20px]">logout</span>
+                                Logout
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            );
+        };
+
+        // 2. Mount Component to DOM
+        const rootElement = document.getElementById('react-profile-root');
+        const root = ReactDOM.createRoot(rootElement);
+        root.render(<ProfileDropdown />);
+    </script>
+</body>
+</html>

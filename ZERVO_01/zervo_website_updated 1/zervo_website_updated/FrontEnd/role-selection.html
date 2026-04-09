@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Join the Mission | ZERVO</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://www.gstatic.com" rel="preconnect" crossorigin=""/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Manrope:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "surface-variant": "#dee5d6",
+              "outline-variant": "#bfcaba",
+              "on-secondary-container": "#5e2c00",
+              "surface": "#f5fced",
+              "on-tertiary-container": "#d6ffa5",
+              "surface-dim": "#d5dcce",
+              "on-primary-fixed-variant": "#005312",
+              "tertiary": "#386000",
+              "outline": "#707a6c",
+              "primary-fixed-dim": "#88d982",
+              "on-tertiary-fixed": "#0f2000",
+              "surface-container-high": "#e3ebdc",
+              "surface-tint": "#1b6d24",
+              "surface-bright": "#f5fced",
+              "on-primary": "#ffffff",
+              "on-secondary-fixed": "#311300",
+              "surface-container-highest": "#dee5d6",
+              "on-tertiary": "#ffffff",
+              "on-secondary-fixed-variant": "#723600",
+              "on-surface": "#171d14",
+              "on-error": "#ffffff",
+              "tertiary-container": "#4a7b00",
+              "secondary": "#964900",
+              "on-background": "#171d14",
+              "secondary-fixed": "#ffdcc6",
+              "on-error-container": "#93000a",
+              "error-container": "#ffdad6",
+              "on-primary-container": "#cbffc2",
+              "tertiary-fixed-dim": "#9ed75b",
+              "on-secondary": "#ffffff",
+              "inverse-on-surface": "#ecf3e4",
+              "surface-container": "#e9f0e1",
+              "primary": "#0d631b",
+              "background": "#f5fced",
+              "on-surface-variant": "#40493d",
+              "inverse-primary": "#88d982",
+              "surface-container-lowest": "#ffffff",
+              "surface-container-low": "#eff6e7",
+              "secondary-container": "#fc820c",
+              "error": "#ba1a1a",
+              "on-tertiary-fixed-variant": "#2e4f00",
+              "secondary-fixed-dim": "#ffb786",
+              "primary-container": "#2e7d32",
+              "primary-fixed": "#a3f69c",
+              "tertiary-fixed": "#b9f474",
+              "on-primary-fixed": "#002204",
+              "inverse-surface": "#2c3228"
+            },
+            fontFamily: {
+              "headline": ["Plus Jakarta Sans"],
+              "body": ["Manrope"],
+              "label": ["Manrope"]
+            },
+            borderRadius: {"DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            font-family: 'Manrope', sans-serif;
+            background-color: #f5fced;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface min-h-screen flex flex-col">
+<!-- Top Navigation Bar -->
+<nav class="fixed top-0 w-full z-50 bg-emerald-50/80 dark:bg-zinc-900/80 backdrop-blur-xl">
+<div class="flex justify-between items-center px-6 py-4 max-w-7xl mx-auto">
+<a href="index.html" class="text-2xl font-black text-emerald-900 dark:text-emerald-50 tracking-tight font-headline block">ZERVO</a>
+<div class="flex items-center gap-4">
+<!-- Profile Dropdown -->
+<div class="relative zervo-profile-wrapper">
+    <button class="zervo-profile-rtrig flex items-center justify-center rounded-full ring-2 ring-transparent hover:ring-primary/20 focus:ring-primary/40 focus:outline-none transition-all duration-200 active:scale-95 overflow-hidden" aria-haspopup="true" aria-expanded="false">
+        <div class="w-10 h-10 border-2 border-primary/20 rounded-full overflow-hidden">
+            <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuCcePFs6Gd6MkAjvPopZNI1Mu_OSSdyZFpyvAWW7BUi7t3NirADmQGsth7JorkTMM5PuRcv2iRAl1BlN6iFqS47pebGbp-Stt-snlXyGFHpOcuzmltRj7SwYuc8bIwgXOaQRzm74LHwkXjxUU1MKA7DDnEb30I0xYOO9mATGgeyq27iNwOHr_jIlEP6X10s1J2BjYFbuhpgmWn7YI0iiuyvR6uh8V7JQ5DpwpylHUAeAjxSIyQZRdieCW7P_gbAue9IyE6HRa8DuKU" alt="User profile" class="w-full h-full object-cover" />
+        </div>
+    </button>
+    <!-- Dropdown Panel -->
+    <div class="zervo-profile-rdown absolute right-0 mt-3 w-64 bg-surface-container-lowest rounded-2xl shadow-xl border border-outline-variant/20 z-50 overflow-hidden transform origin-top-right transition-all duration-200 ease-out flex flex-col opacity-0 scale-95 -translate-y-2 invisible pointer-events-none">
+        <div class="p-4 border-b border-outline-variant/10 bg-surface-container-low/50">
+            <p class="font-headline font-bold text-on-surface text-sm truncate">Sarah Miller</p>
+            <p class="text-on-surface-variant font-medium text-xs mt-0.5 truncate">sarah@greenvalley.org</p>
+        </div>
+        <div class="py-2">
+            <a href="editprofile.html" class="flex items-center w-full px-4 py-2.5 text-sm font-medium text-on-surface hover:bg-surface-variant/40 hover:text-primary transition-colors focus:outline-none" role="menuitem">
+                <span class="material-symbols-outlined mr-3 text-[20px]">person</span> View Profile
+            </a>
+        </div>
+        <div class="py-2 border-t border-outline-variant/10">
+            <a href="login.html" class="flex items-center w-full px-4 py-2.5 text-sm font-bold text-error hover:bg-error/10 transition-colors focus:outline-none" role="menuitem">
+                <span class="material-symbols-outlined mr-3 text-[20px]">logout</span> Logout
+            </a>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+</nav>
+<!-- Main Content Canvas -->
+<main class="flex-grow pt-32 pb-24 px-6 md:px-12 max-w-7xl mx-auto w-full relative overflow-hidden">
+<!-- Organic Background Elements -->
+<div class="absolute top-0 right-0 -z-10 w-96 h-96 bg-primary/5 rounded-full blur-3xl opacity-60 translate-x-1/2 -translate-y-1/2"></div>
+<div class="absolute bottom-0 left-0 -z-10 w-80 h-80 bg-secondary/5 rounded-full blur-3xl opacity-40 -translate-x-1/3 translate-y-1/3"></div>
+<!-- Hero Section -->
+<div class="text-center mb-16 max-w-3xl mx-auto">
+<span class="inline-block px-4 py-1.5 rounded-full bg-primary-container/10 text-primary font-bold text-sm mb-6 font-label tracking-wide">JOIN THE MOVEMENT</span>
+<h1 class="text-5xl md:text-6xl font-extrabold font-headline text-on-surface tracking-tight mb-8">Choose Your Role.</h1>
+<p class="text-xl text-on-surface-variant font-body leading-relaxed">
+                Whether you have surplus to share, a community to feed, or hands to help, there's a place for you in our digital orchard.
+            </p>
+</div>
+<!-- Bento Grid / Card Layout -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+<!-- Donor Card -->
+<div class="group relative flex flex-col bg-surface-container-lowest p-8 md:p-10 rounded-xl shadow-[0px_20px_40px_rgba(23,29,20,0.04)] hover:shadow-[0px_30px_60px_rgba(23,29,20,0.08)] transition-all duration-300 transform hover:-translate-y-2 border border-outline-variant/10">
+<div class="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mb-8 group-hover:bg-primary transition-colors duration-300">
+<span class="material-symbols-outlined text-3xl text-primary group-hover:text-on-primary transition-colors" data-icon="volunteer_activism">volunteer_activism</span>
+</div>
+<h3 class="text-2xl font-bold font-headline text-on-surface mb-4">Donor</h3>
+<p class="text-on-surface-variant font-body mb-10 flex-grow leading-relaxed">
+                    Help us reduce waste by donating surplus food from your business, garden, or events to those in need.
+                </p>
+<a id="btn-donor" href="impact-dashboard.html" class="w-full py-4 bg-primary text-on-primary rounded-xl font-bold font-headline active:scale-95 transition-transform flex items-center justify-center gap-2">
+                    I'm a Donor
+                    <span class="material-symbols-outlined text-sm" data-icon="arrow_forward">arrow_forward</span>
+</a>
+</div>
+<!-- Receiver Card -->
+<div class="group relative flex flex-col bg-surface-container-highest p-8 md:p-10 rounded-xl shadow-[0px_20px_40px_rgba(23,29,20,0.04)] hover:shadow-[0px_30px_60px_rgba(23,29,20,0.08)] transition-all duration-300 transform hover:-translate-y-2">
+<div class="w-16 h-16 rounded-full bg-secondary/10 flex items-center justify-center mb-8 group-hover:bg-secondary transition-colors duration-300">
+<span class="material-symbols-outlined text-3xl text-secondary group-hover:text-on-secondary transition-colors" data-icon="favorite">favorite</span>
+</div>
+<h3 class="text-2xl font-bold font-headline text-on-surface mb-4">Receiver</h3>
+<p class="text-on-surface-variant font-body mb-10 flex-grow leading-relaxed">
+                    Get access to fresh, nutritious food for your community organization, food bank, or non-profit initiative.
+                </p>
+<a id="btn-receiver" href="submission-popups.html" class="w-full py-4 bg-secondary-container text-on-secondary-container rounded-xl font-bold font-headline active:scale-95 transition-transform flex items-center justify-center gap-2">
+                    I'm a Receiver
+                    <span class="material-symbols-outlined text-sm" data-icon="arrow_forward">arrow_forward</span>
+</a>
+</div>
+<!-- Volunteer Card -->
+<div class="group relative flex flex-col bg-surface-container-lowest p-8 md:p-10 rounded-xl shadow-[0px_20px_40px_rgba(23,29,20,0.04)] hover:shadow-[0px_30px_60px_rgba(23,29,20,0.08)] transition-all duration-300 transform hover:-translate-y-2 border border-outline-variant/10">
+<div class="w-16 h-16 rounded-full bg-tertiary/10 flex items-center justify-center mb-8 group-hover:bg-tertiary transition-colors duration-300">
+<span class="material-symbols-outlined text-3xl text-tertiary group-hover:text-on-tertiary transition-colors" data-icon="groups">groups</span>
+</div>
+<h3 class="text-2xl font-bold font-headline text-on-surface mb-4">Volunteer</h3>
+<p class="text-on-surface-variant font-body mb-10 flex-grow leading-relaxed">
+                    Lend a hand in collecting, sorting, and redistributing food. Be the boots on the ground of our logistics.
+                </p>
+<a id="btn-volunteer" href="volunteer-dashboard.html" class="w-full py-4 bg-tertiary text-on-tertiary rounded-xl font-bold font-headline active:scale-95 transition-transform flex items-center justify-center gap-2">
+                    I'm a Volunteer
+                    <span class="material-symbols-outlined text-sm" data-icon="arrow_forward">arrow_forward</span>
+</a>
+</div>
+</div>
+<!-- Featured Visual Section -->
+<div class="w-full h-96 rounded-xl overflow-hidden relative group">
+<img alt="Diverse group of volunteers smiling and packing cardboard boxes with fresh vibrant vegetables in a large sunlit community kitchen center" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="wide cinematic shot of a diverse group of volunteers smiling and packing cardboard boxes with fresh vibrant vegetables in a large sunlit community kitchen center, high quality, realistic, natural lighting, eco-friendly atmosphere, desktop aspect ratio" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAm2Csvi_Z1IPyg1ImyA4-bbDgMQWLrAgmd9aw346DNfE7iyIqrfkQpnoQj5XhpzepCzz2erRsxBNJZtJ84ZSYC5p1SkIvbOVlR81Povl4brO6a7XccMGoATpwuDVDkvZ1_PPX82r4KFlQutjI-4aBeIa4cr3ex6o7laXgtd9H7iJ4dxDe-OUptBWyX7kTprMCra4ef0FkJ8qxb5C4rWz0O_44a7vBIMl1bTlcmOKGvz07Tojbw1fRMgbbGQHnYEj2VPcNE7empxLs"/>
+<div class="absolute inset-0 flex items-end p-12">
+<div class="text-on-primary">
+<p class="text-3xl font-bold font-headline max-w-xl">Together, we can ensure no harvest goes to waste.</p>
+</div>
+</div>
+</div>
+</main>
+<script type="module" src="assets/js/profile.js"></script>
+
+<script type="module">
+  import { initializeApp }               from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+  import { getDatabase, ref, update }    from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyB8ynZXXUV7MJLbZNd42CEUpZDRWXoHM30",
+    authDomain: "zervo-9585.firebaseapp.com",
+    projectId: "zervo-9585",
+    storageBucket: "zervo-9585.firebasestorage.app",
+    messagingSenderId: "892339796416",
+    appId: "1:892339796416:web:f9810482ae1c40be6b3025",
+    databaseURL: "https://zervo-9585-default-rtdb.firebaseio.com"
+  };
+
+  const app  = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db   = getDatabase(app);
+  let currentUser = null;
+
+  // Redirect to login if not logged in
+  onAuthStateChanged(auth, (user) => {
+    if (user) { currentUser = user; }
+    else { window.location.href = 'login.html'; }
+  });
+
+  // Save role to Firebase then redirect
+  async function saveRole(role, destination) {
+    if (currentUser) {
+      try {
+        await update(ref(db, 'users/' + currentUser.uid), { role: role });
+        // Update session cache
+        const cacheKey = 'zervo_user_' + currentUser.uid;
+        const cached   = sessionStorage.getItem(cacheKey);
+        if (cached) {
+          const data = JSON.parse(cached);
+          data.role  = role;
+          sessionStorage.setItem(cacheKey, JSON.stringify(data));
+        }
+      } catch (err) { console.error('Role save error:', err); }
+    }
+    window.location.href = destination;
+  }
+
+  // Attach click handlers when page loads
+  document.addEventListener('DOMContentLoaded', () => {
+    const donorBtn     = document.getElementById('btn-donor');
+    const receiverBtn  = document.getElementById('btn-receiver');
+    const volunteerBtn = document.getElementById('btn-volunteer');
+
+    if (donorBtn)     donorBtn.addEventListener('click',     (e) => { e.preventDefault(); saveRole('donor',     'submission.html'); });
+    if (receiverBtn)  receiverBtn.addEventListener('click',  (e) => { e.preventDefault(); saveRole('ngo',       'submission-popups.html'); });
+    if (volunteerBtn) volunteerBtn.addEventListener('click', (e) => { e.preventDefault(); saveRole('volunteer', 'volunteer-dashboard.html'); });
+  });
+</script>
+</body></html>

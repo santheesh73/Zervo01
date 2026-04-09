@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Volunteer Dashboard | ZERVO</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link href="https://fonts.gstatic.com" rel="preconnect" crossorigin/>
+<link href="https://www.gstatic.com" rel="preconnect" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Manrope',sans-serif;background:#f5fced;color:#171d14;min-height:100vh;}
+  h1,h2,h3,h4{font-family:'Plus Jakarta Sans',sans-serif;}
+  a{text-decoration:none;color:inherit;}
+  .material-symbols-outlined{font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24;vertical-align:middle;}
+  /* Nav */
+  .topnav{position:fixed;top:0;width:100%;z-index:50;background:rgba(245,252,237,0.9);backdrop-filter:blur(20px);box-shadow:0 1px 10px rgba(0,0,0,0.05);padding:1rem 1.5rem;display:flex;justify-content:space-between;align-items:center;}
+  /* Cards */
+  .card{background:#fff;border-radius:1rem;padding:2rem;box-shadow:0 4px 20px rgba(23,29,20,0.04);}
+  .card-green{background:#eff6e7;border-radius:1rem;padding:2rem;}
+  /* Pickup card */
+  .pickup-card{background:#fff;border-radius:1rem;padding:1.5rem;box-shadow:0 2px 12px rgba(23,29,20,0.04);border:1px solid rgba(191,202,186,0.2);display:flex;align-items:center;gap:1rem;flex-wrap:wrap;margin-bottom:1rem;transition:box-shadow 0.2s;}
+  .pickup-card:hover{box-shadow:0 8px 24px rgba(23,29,20,0.08);}
+  /* Badge */
+  .badge{padding:0.2rem 0.75rem;border-radius:9999px;font-size:0.65rem;font-weight:700;text-transform:uppercase;}
+  .badge-veg{background:#b9f474;color:#0f2000;}
+  .badge-nonveg{background:#dee5d6;color:#40493d;}
+  .badge-both{background:#ffdcc6;color:#5e2c00;}
+  /* Btn */
+  .btn{padding:0.75rem 1.5rem;border-radius:9999px;font-weight:700;font-family:'Manrope',sans-serif;border:none;cursor:pointer;display:inline-flex;align-items:center;gap:0.5rem;transition:transform 0.15s;}
+  .btn:hover{transform:scale(0.97);}
+  .btn-primary{background:#0d631b;color:#fff;}
+  .btn-outline{background:transparent;border:2px solid #bfcaba;color:#171d14;}
+  /* Profile dropdown */
+  .profile-dropdown{position:absolute;right:0;top:3rem;width:16rem;background:#fff;border-radius:1rem;box-shadow:0 10px 30px rgba(0,0,0,0.1);border:1px solid rgba(191,202,186,0.2);z-index:100;opacity:0;transform:scale(0.95) translateY(-0.5rem);visibility:hidden;transition:all 0.2s;pointer-events:none;}
+  .profile-dropdown.open{opacity:1;transform:scale(1) translateY(0);visibility:visible;pointer-events:auto;}
+  /* Notif dropdown */
+  .notif-dropdown{position:absolute;right:0;top:3rem;width:22rem;background:#fff;border-radius:1rem;box-shadow:0 10px 30px rgba(0,0,0,0.1);border:1px solid rgba(191,202,186,0.2);z-index:100;opacity:0;transform:scale(0.95) translateY(-0.5rem);visibility:hidden;transition:all 0.2s;pointer-events:none;max-height:24rem;overflow:hidden;display:flex;flex-direction:column;}
+  .notif-dropdown.open{opacity:1;transform:scale(1) translateY(0);visibility:visible;pointer-events:auto;}
+  /* Leaderboard */
+  .lb-row{display:flex;align-items:center;justify-content:space-between;padding:0.75rem 0;border-bottom:1px solid rgba(191,202,186,0.15);}
+  .lb-row:last-child{border-bottom:none;}
+  /* Pulse */
+  .pulse{display:inline-block;width:0.5rem;height:0.5rem;background:#0d631b;border-radius:50%;animation:pulse 2s infinite;}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}
+  /* Grid helpers */
+  .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;}
+  .grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1.5rem;}
+  @media(max-width:768px){.grid-2,.grid-3{grid-template-columns:1fr;}.hide-mobile{display:none!important;}}
+</style>
+</head>
+<body>
+
+<!-- TOP NAV -->
+<nav class="topnav">
+  <a href="index.html" style="font-size:1.5rem;font-weight:900;color:#0d631b;font-family:'Plus Jakarta Sans',sans-serif;">ZERVO</a>
+  <div style="display:flex;align-items:center;gap:1rem;">
+
+    <!-- Notification Bell -->
+    <div style="position:relative;" id="notif-wrapper">
+      <button id="notif-btn" style="background:none;border:none;cursor:pointer;position:relative;padding:0.5rem;border-radius:9999px;" onclick="toggleNotif(event)">
+        <span class="material-symbols-outlined" style="color:#0d631b;">notifications</span>
+        <span id="notif-badge" style="display:none;position:absolute;top:2px;right:2px;width:1rem;height:1rem;background:#ba1a1a;border-radius:50%;font-size:0.6rem;font-weight:700;color:#fff;align-items:center;justify-content:center;">0</span>
+      </button>
+      <div class="notif-dropdown" id="notif-panel">
+        <div style="padding:1rem;border-bottom:1px solid rgba(191,202,186,0.15);display:flex;justify-content:space-between;align-items:center;">
+          <span style="font-weight:700;font-family:'Plus Jakarta Sans',sans-serif;">Notifications</span>
+          <button onclick="markAllRead()" style="background:none;border:none;color:#0d631b;font-size:0.75rem;font-weight:700;cursor:pointer;">Mark as read</button>
+        </div>
+        <div id="notif-list" style="overflow-y:auto;flex:1;"></div>
+      </div>
+    </div>
+
+    <!-- Profile -->
+    <div style="position:relative;" id="profile-wrapper">
+      <button id="profile-btn" onclick="toggleProfile(event)" style="background:none;border:none;cursor:pointer;">
+        <div id="avatar" style="width:2.5rem;height:2.5rem;border-radius:50%;background:#0d631b;color:#fff;font-weight:700;display:flex;align-items:center;justify-content:center;font-size:0.875rem;">?</div>
+      </button>
+      <div class="profile-dropdown" id="profile-panel">
+        <div style="padding:1rem;border-bottom:1px solid rgba(191,202,186,0.15);">
+          <p id="profile-name" style="font-weight:700;font-size:0.875rem;color:#171d14;font-family:'Plus Jakarta Sans',sans-serif;">Loading...</p>
+          <p id="profile-email" style="font-size:0.75rem;color:#40493d;margin-top:0.25rem;"></p>
+        </div>
+        <div style="padding:0.5rem 0;">
+          <a href="editprofile.html" style="display:flex;align-items:center;gap:0.75rem;padding:0.625rem 1rem;font-size:0.875rem;color:#171d14;" onmouseover="this.style.background='rgba(222,229,214,0.4)'" onmouseout="this.style.background='none'">
+            <span class="material-symbols-outlined" style="font-size:1.25rem;">person</span> View Profile
+          </a>
+        </div>
+        <div style="padding:0.5rem 0;border-top:1px solid rgba(191,202,186,0.15);">
+          <a href="#" id="logout-btn" style="display:flex;align-items:center;gap:0.75rem;padding:0.625rem 1rem;font-size:0.875rem;font-weight:700;color:#ba1a1a;" onmouseover="this.style.background='rgba(186,26,26,0.08)'" onmouseout="this.style.background='none'">
+            <span class="material-symbols-outlined" style="font-size:1.25rem;">logout</span> Logout
+          </a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</nav>
+
+<!-- MAIN -->
+<main style="padding-top:5rem;padding-bottom:5rem;max-width:80rem;margin:0 auto;padding-left:1.5rem;padding-right:1.5rem;">
+
+  <!-- Welcome -->
+  <section style="margin-bottom:2rem;">
+    <h2 id="welcome-msg" style="font-size:2.5rem;font-weight:900;color:#171d14;letter-spacing:-0.025em;">Welcome Back!</h2>
+    <p style="color:#40493d;margin-top:0.5rem;font-size:1.1rem;">Ready to make another delivery and earn more points?</p>
+  </section>
+
+  <!-- Stats -->
+  <div class="grid-2" style="margin-bottom:2rem;">
+    <div class="card-green" style="display:flex;flex-direction:column;justify-content:space-between;min-height:10rem;">
+      <span class="material-symbols-outlined" style="font-size:2.5rem;color:#0d631b;">volunteer_activism</span>
+      <div>
+        <p style="font-size:0.75rem;font-weight:700;color:#40493d;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.25rem;">Total Listings</p>
+        <p id="stat-pickups" style="font-size:2.5rem;font-weight:900;color:#0d631b;">0</p>
+      </div>
+    </div>
+    <div class="card-green" style="display:flex;flex-direction:column;justify-content:space-between;min-height:10rem;">
+      <span class="material-symbols-outlined" style="font-size:2.5rem;color:#fc820c;">groups</span>
+      <div>
+        <p style="font-size:0.75rem;font-weight:700;color:#40493d;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.25rem;">Community Impact</p>
+        <p id="stat-meals" style="font-size:2.5rem;font-weight:900;color:#fc820c;">0 <span style="font-size:1.25rem;">Meals</span></p>
+      </div>
+    </div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:2fr 1fr;gap:2rem;" id="main-grid">
+
+    <!-- Available Pickups -->
+    <section>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem;flex-wrap:wrap;gap:1rem;">
+        <h3 style="font-size:1.5rem;font-weight:900;color:#171d14;display:flex;align-items:center;gap:0.75rem;">
+          <span style="width:0.5rem;height:2rem;background:#fc820c;border-radius:9999px;display:inline-block;"></span>
+          Available Pickups
+        </h3>
+        <!-- Search Bar -->
+        <div style="position:relative;flex:1;max-width:20rem;">
+          <span class="material-symbols-outlined" style="position:absolute;left:1rem;top:50%;transform:translateY(-50%);font-size:1.1rem;color:#707a6c;">search</span>
+          <input id="search-pickups" type="text" placeholder="Search pickups..." oninput="filterPickups(this.value)"
+            style="width:100%;padding:0.625rem 1rem 0.625rem 2.75rem;border-radius:9999px;border:1px solid rgba(191,202,186,0.4);background:#fff;font-family:Manrope,sans-serif;font-size:0.875rem;color:#171d14;outline:none;box-shadow:0 1px 4px rgba(0,0,0,0.04);"
+            onfocus="this.style.borderColor='#0d631b'" onblur="this.style.borderColor='rgba(191,202,186,0.4)'"/>
+        </div>
+      </div>
+      <div id="pickups-container">
+        <div style="text-align:center;padding:3rem;color:#40493d;">
+          <span class="material-symbols-outlined" style="font-size:2.5rem;display:block;margin-bottom:0.5rem;">hourglass_top</span>
+          <p style="font-weight:500;">Loading available pickups...</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Leaderboard -->
+    <section>
+      <div class="card" style="position:sticky;top:5rem;">
+        <h3 style="font-size:1.25rem;font-weight:900;color:#171d14;display:flex;align-items:center;gap:0.5rem;margin-bottom:1.5rem;">
+          <span class="material-symbols-outlined" style="color:#fc820c;font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 24;">emoji_events</span>
+          Leaderboard
+        </h3>
+
+        <!-- Top volunteer -->
+        <div style="background:#eff6e7;border-radius:0.75rem;padding:1.25rem;margin-bottom:1.25rem;position:relative;overflow:hidden;">
+          <p style="font-size:0.65rem;font-weight:700;color:#0d631b;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.75rem;">🏆 Top Volunteer</p>
+          <div style="display:flex;align-items:center;gap:0.75rem;">
+            <div id="top-avatar" style="width:3rem;height:3rem;border-radius:50%;background:#0d631b;color:#fff;font-weight:900;display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;">?</div>
+            <div>
+              <p id="top-name" style="font-weight:700;color:#171d14;font-family:'Plus Jakarta Sans',sans-serif;">No volunteers yet</p>
+              <p id="top-pts" style="font-size:0.75rem;color:#40493d;margin-top:0.15rem;">Complete a delivery to earn points!</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Rankings -->
+        <div id="leaderboard-list">
+          <p style="text-align:center;color:#40493d;font-size:0.875rem;padding:1rem 0;">Loading rankings...</p>
+        </div>
+
+        <button class="btn btn-outline" onclick="openRankings()" style="width:100%;margin-top:1rem;justify-content:center;">View Full Rankings</button>
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<script type="module">
+  import { initializeApp }                from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+  import { getDatabase, ref, get, onValue, push, set, update, remove } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyB8ynZXXUV7MJLbZNd42CEUpZDRWXoHM30",
+    authDomain: "zervo-9585.firebaseapp.com",
+    projectId: "zervo-9585",
+    storageBucket: "zervo-9585.firebasestorage.app",
+    messagingSenderId: "892339796416",
+    appId: "1:892339796416:web:f9810482ae1c40be6b3025",
+    databaseURL: "https://zervo-9585-default-rtdb.firebaseio.com"
+  };
+
+  const app  = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db   = getDatabase(app);
+  let currentUser = null;
+
+  // ── Dropdown toggles ────────────────────────────────────────────────────
+  window.toggleProfile = (e) => {
+    e.stopPropagation();
+    document.getElementById('notif-panel').classList.remove('open');
+    document.getElementById('profile-panel').classList.toggle('open');
+  };
+  window.toggleNotif = (e) => {
+    e.stopPropagation();
+    document.getElementById('profile-panel').classList.remove('open');
+    document.getElementById('notif-panel').classList.toggle('open');
+  };
+  document.addEventListener('click', () => {
+    document.getElementById('profile-panel').classList.remove('open');
+    document.getElementById('notif-panel').classList.remove('open');
+  });
+
+  // ── Logout ──────────────────────────────────────────────────────────────
+  document.getElementById('logout-btn').addEventListener('click', async (e) => {
+    e.preventDefault();
+    sessionStorage.clear();
+    await signOut(auth);
+    window.location.href = 'login.html';
+  });
+
+  // ── Badge type styling ──────────────────────────────────────────────────
+  function badgeClass(type) {
+    if (type === 'veg')     return 'badge badge-veg';
+    if (type === 'non-veg') return 'badge badge-nonveg';
+    return 'badge badge-both';
+  }
+
+  function pickupLabel(slot) {
+    return {morning:'Before 12 PM', afternoon:'Before 4 PM', evening:'Before 8 PM'}[slot] || slot || 'ASAP';
+  }
+
+  // ── Pickup card HTML ────────────────────────────────────────────────────
+  function buildCard(food) {
+    return `
+    <div class="pickup-card">
+      <div style="width:4rem;height:4rem;border-radius:0.75rem;background:#e9f0e1;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+        <span class="material-symbols-outlined" style="font-size:2rem;color:#0d631b;">restaurant</span>
+      </div>
+      <div style="flex:1;min-width:150px;">
+        <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.5rem;flex-wrap:wrap;">
+          <h4 style="font-weight:700;font-size:1rem;color:#171d14;">${food.organisation || food.donorName || 'Anonymous Donor'}</h4>
+          <span class="${badgeClass(food.foodType)}">${food.foodType || 'food'}</span>
+        </div>
+        <p style="font-size:0.875rem;color:#40493d;display:flex;align-items:center;gap:0.25rem;margin-bottom:0.5rem;">
+          <span class="material-symbols-outlined" style="font-size:1rem;">location_on</span>
+          ${food.location || 'Location not provided'}
+        </p>
+        <div style="display:flex;gap:1rem;flex-wrap:wrap;">
+          <span style="font-size:0.875rem;display:flex;align-items:center;gap:0.25rem;">
+            <span class="material-symbols-outlined" style="font-size:1rem;color:#fc820c;">inventory_2</span>
+            <strong>${food.quantity || 'N/A'}</strong>
+          </span>
+          <span style="font-size:0.875rem;display:flex;align-items:center;gap:0.25rem;">
+            <span class="material-symbols-outlined" style="font-size:1rem;color:#707a6c;">schedule</span>
+            ${pickupLabel(food.pickupTime)}
+          </span>
+          <span style="font-size:0.875rem;display:flex;align-items:center;gap:0.25rem;">
+            <span class="material-symbols-outlined" style="font-size:1rem;color:#707a6c;">call</span>
+            ${food.contact || ''}
+          </span>
+        </div>
+      </div>
+      <button class="btn btn-primary" onclick="window.location.href='pickup-workflow.html?foodId=${food.id}'">
+        Claim Pickup
+      </button>
+    </div>`;
+  }
+
+  // ── Store all pickups for search ──────────────────────────────────────
+  let allPickupsData = [];
+
+  window.filterPickups = function(query) {
+    const q   = query.toLowerCase().trim();
+    const container = document.getElementById('pickups-container');
+    if (!q) {
+      container.innerHTML = allPickupsData.length === 0
+        ? '<div style="text-align:center;padding:3rem;color:#40493d;"><p>No available pickups</p></div>'
+        : allPickupsData.map(buildCard).join('');
+      return;
+    }
+    const filtered = allPickupsData.filter(f =>
+      (f.organisation||'').toLowerCase().includes(q) ||
+      (f.donorName||'').toLowerCase().includes(q)    ||
+      (f.location||'').toLowerCase().includes(q)     ||
+      (f.foodType||'').toLowerCase().includes(q)     ||
+      (f.quantity||'').toLowerCase().includes(q)
+    );
+    container.innerHTML = filtered.length === 0
+      ? '<div style="text-align:center;padding:3rem;color:#40493d;"><span class="material-symbols-outlined" style="font-size:2rem;display:block;margin-bottom:0.5rem;">search_off</span><p>No pickups match your search</p></div>'
+      : filtered.map(buildCard).join('');
+  };
+
+  // ── Load leaderboard ────────────────────────────────────────────────────
+  async function loadLeaderboard() {
+    try {
+      const snap = await get(ref(db, 'users'));
+      if (!snap.exists()) return;
+      const volunteers = Object.values(snap.val())
+        .filter(u => u.role === 'volunteer' && (u.points || 0) > 0)
+        .sort((a, b) => (b.points || 0) - (a.points || 0));
+
+      if (volunteers.length === 0) {
+        document.getElementById('top-name').textContent = 'No volunteers yet';
+        document.getElementById('top-pts').textContent  = 'Be the first to earn points! 🚀';
+        document.getElementById('leaderboard-list').innerHTML = '';
+        return;
+      }
+
+      const top = volunteers[0];
+      const topInit = (top.name||'V').split(' ').map(n=>n[0]).join('').substring(0,2).toUpperCase();
+      document.getElementById('top-avatar').textContent = topInit;
+      document.getElementById('top-name').textContent   = top.name || 'Volunteer';
+      document.getElementById('top-pts').textContent    = (top.points||0) + ' pts · ' + (top.deliveries||0) + ' deliveries';
+
+      const rest = volunteers.slice(1, 6);
+      const medals = ['🥈','🥉','4️⃣','5️⃣','6️⃣'];
+      document.getElementById('leaderboard-list').innerHTML = rest.length === 0
+        ? '<p style="text-align:center;font-size:0.875rem;color:#40493d;padding:0.5rem 0;">Only one volunteer so far!</p>'
+        : rest.map((v, i) => {
+            const init = (v.name||'V').split(' ').map(n=>n[0]).join('').substring(0,2).toUpperCase();
+            return `<div class="lb-row">
+              <div style="display:flex;align-items:center;gap:0.75rem;">
+                <span style="font-size:1.2rem;width:1.5rem;">${medals[i]||i+2+'.'}</span>
+                <div style="width:2.25rem;height:2.25rem;border-radius:50%;background:#e9f0e1;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.75rem;color:#0d631b;">${init}</div>
+                <div>
+                  <p style="font-weight:700;font-size:0.875rem;">${v.name||'Volunteer'}</p>
+                  <p style="font-size:0.7rem;color:#40493d;">${v.deliveries||0} deliveries</p>
+                </div>
+              </div>
+              <div style="text-align:right;">
+                <p style="font-weight:900;color:#0d631b;">${(v.points||0).toLocaleString()}</p>
+                <p style="font-size:0.6rem;text-transform:uppercase;font-weight:700;color:#707a6c;">PTS</p>
+              </div>
+            </div>`;
+          }).join('');
+    } catch (err) { console.error('Leaderboard error:', err); }
+  }
+
+  // ── Load notifications ──────────────────────────────────────────────────
+  function loadNotifications(uid) {
+    onValue(ref(db, 'notifications/' + uid), (snap) => {
+      const badge = document.getElementById('notif-badge');
+      const list  = document.getElementById('notif-list');
+      if (!snap.exists()) {
+        list.innerHTML = '<div style="padding:2rem;text-align:center;color:#40493d;font-size:0.875rem;">No notifications yet</div>';
+        badge.style.display = 'none';
+        return;
+      }
+      const notifs  = Object.entries(snap.val())
+        .map(([key, value]) => ({ ...value, id: value?.id || key }))
+        .sort((a,b) => b.createdAt - a.createdAt);
+      const unread  = notifs.filter(n => !n.isRead).length;
+      badge.style.display    = unread > 0 ? 'flex' : 'none';
+      badge.textContent      = unread > 9 ? '9+' : unread;
+
+      const relTime = (ts) => {
+        const m = Math.floor((Date.now()-ts)/60000);
+        if (m < 1) return 'Just now';
+        if (m < 60) return m + 'm ago';
+        const h = Math.floor(m/60);
+        return h < 24 ? h + 'h ago' : Math.floor(h/24) + 'd ago';
+      };
+
+      list.innerHTML = notifs.map(n => `
+        <div style="display:flex;gap:0.75rem;padding:0.875rem 1rem;border-bottom:1px solid rgba(191,202,186,0.12);cursor:pointer;background:${!n.isRead?'rgba(13,99,27,0.04)':'#fff'};"
+          onclick="markNotifRead('${uid}','${n.id}')">
+          <div style="width:2.5rem;height:2.5rem;border-radius:50%;background:${n.type==='delivery_complete'?'rgba(56,96,0,0.1)':'rgba(13,99,27,0.1)'};display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+            <span class="material-symbols-outlined" style="font-size:1.125rem;color:${n.type==='delivery_complete'?'#386000':'#0d631b'};">${n.type==='delivery_complete'?'verified':'food_bank'}</span>
+          </div>
+          <div style="flex:1;min-width:0;">
+            <p style="font-size:0.875rem;font-weight:${!n.isRead?'700':'500'};color:#171d14;line-height:1.3;">${n.title||'Notification'}</p>
+            <p style="font-size:0.75rem;color:#40493d;margin-top:0.2rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${n.message||''}</p>
+            ${n.photo ? `<img src="${n.photo}" style="width:100%;max-height:100px;object-fit:cover;border-radius:0.5rem;margin-top:0.4rem;border:1px solid rgba(191,202,186,0.3);" />` : ''}
+            <p style="font-size:0.65rem;color:#707a6c;margin-top:0.25rem;">${relTime(n.createdAt)}</p>
+          </div>
+          <button onclick="event.stopPropagation(); deleteNotification('${uid}','${n.id}')" title="Delete notification" aria-label="Delete notification" style="background:none;border:none;color:#707a6c;cursor:pointer;align-self:flex-start;padding:0.125rem;">
+            <span class="material-symbols-outlined" style="font-size:1.1rem;">delete</span>
+          </button>
+          ${!n.isRead?'<div style="width:0.5rem;height:0.5rem;border-radius:50%;background:#0d631b;margin-top:0.5rem;flex-shrink:0;"></div>':''}
+        </div>`).join('');
+    });
+  }
+
+  window.markNotifRead = async (uid, id) => {
+    try { await update(ref(db, 'notifications/' + uid + '/' + id), { isRead: true }); } catch(e){}
+  };
+
+  window.markAllRead = async () => {
+    if (!currentUser) return;
+    try {
+      const snap = await get(ref(db, 'notifications/' + currentUser.uid));
+      if (!snap.exists()) return;
+      const updates = {};
+      Object.keys(snap.val()).forEach(k => updates[k + '/isRead'] = true);
+      await update(ref(db, 'notifications/' + currentUser.uid), updates);
+    } catch(e){}
+  };
+
+  window.deleteNotification = async (uid, id) => {
+    if (!uid || !id) return;
+    try {
+      await remove(ref(db, 'notifications/' + uid + '/' + id));
+    } catch(e) {}
+  };
+
+  // ── Main auth + data load ───────────────────────────────────────────────
+  onAuthStateChanged(auth, async (user) => {
+    if (!user) { window.location.href = 'login.html'; return; }
+    currentUser = user;
+
+    // Fill profile from cache
+    const cacheKey = 'zervo_user_' + user.uid;
+    let userData = null;
+    const cached = sessionStorage.getItem(cacheKey);
+    if (cached) {
+      userData = JSON.parse(cached);
+    } else {
+      const snap = await get(ref(db, 'users/' + user.uid));
+      if (snap.exists()) { userData = snap.val(); sessionStorage.setItem(cacheKey, JSON.stringify(userData)); }
+    }
+
+    if (userData) {
+      const name = userData.name || user.displayName || 'User';
+      document.getElementById('welcome-msg').textContent = 'Welcome Back, ' + name.split(' ')[0] + '!';
+      document.getElementById('profile-name').textContent  = name;
+      document.getElementById('profile-email').textContent = userData.email || user.email || '';
+      const init = name.split(' ').map(n=>n[0]).join('').substring(0,2).toUpperCase();
+      document.getElementById('avatar').textContent = init;
+    }
+
+    // Load notifications in real-time
+    loadNotifications(user.uid);
+
+    // Load leaderboard
+    loadLeaderboard();
+
+    // Load food listings in real-time
+    onValue(ref(db, 'food_listings'), (snapshot) => {
+      const container = document.getElementById('pickups-container');
+      if (!snapshot.exists()) {
+        container.innerHTML = '<div style="text-align:center;padding:3rem;color:#40493d;"><span class="material-symbols-outlined" style="font-size:2.5rem;display:block;margin-bottom:0.5rem;">inbox</span><p style="font-weight:500;">No available pickups yet</p></div>';
+        document.getElementById('stat-pickups').textContent = '0';
+        document.getElementById('stat-meals').innerHTML     = '0 <span style="font-size:1.25rem;">Meals</span>';
+        return;
+      }
+
+      const all       = Object.values(snapshot.val());
+      // Only show AVAILABLE listings — strictly exclude completed and picked_up
+      const available = all
+        .filter(f => f.status === 'available')
+        .sort((a, b) => b.createdAt - a.createdAt);
+
+      // Store for search filtering
+      allPickupsData = available;
+      const completed = all.filter(f => f.status === 'completed').length;
+
+      // Update stats
+      document.getElementById('stat-pickups').textContent = all.length;
+      const meals = completed > 0 ? completed * 10 : all.length * 5;
+      document.getElementById('stat-meals').innerHTML = meals.toLocaleString() + ' <span style="font-size:1.25rem;">Meals</span>';
+
+      // Render cards
+      container.innerHTML = available.length === 0
+        ? '<div style="text-align:center;padding:3rem;color:#40493d;"><span class="material-symbols-outlined" style="font-size:2.5rem;display:block;margin-bottom:0.5rem;">check_circle</span><p style="font-weight:500;">All pickups claimed! Great work 🎉</p></div>'
+        : available.map(buildCard).join('');
+    });
+  });
+</script>
+
+<!-- Full Rankings Modal -->
+<div id="rankings-modal" style="display:none;position:fixed;inset:0;z-index:1000;background:rgba(23,29,20,0.5);backdrop-filter:blur(4px);align-items:center;justify-content:center;padding:1rem;">
+  <div style="background:#fff;border-radius:1rem;padding:2rem;max-width:28rem;width:100%;max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,0.2);">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem;">
+      <h3 style="font-family:'Plus Jakarta Sans',sans-serif;font-size:1.5rem;font-weight:900;color:#171d14;display:flex;align-items:center;gap:0.5rem;">
+        🏆 Full Rankings
+      </h3>
+      <button onclick="closeRankings()" style="background:none;border:none;cursor:pointer;font-size:1.5rem;color:#707a6c;line-height:1;">✕</button>
+    </div>
+    <div id="full-rankings-list">
+      <p style="text-align:center;color:#40493d;padding:2rem;">Loading...</p>
+    </div>
+  </div>
+</div>
+
+<script type="module">
+  import { initializeApp }   from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import { getDatabase, ref, get } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+
+  const app2 = initializeApp({
+    apiKey: "AIzaSyB8ynZXXUV7MJLbZNd42CEUpZDRWXoHM30",
+    authDomain: "zervo-9585.firebaseapp.com",
+    projectId: "zervo-9585",
+    storageBucket: "zervo-9585.firebasestorage.app",
+    messagingSenderId: "892339796416",
+    appId: "1:892339796416:web:f9810482ae1c40be6b3025",
+    databaseURL: "https://zervo-9585-default-rtdb.firebaseio.com"
+  }, "rankings-app");
+
+  const db2 = getDatabase(app2);
+
+  window.openRankings = async function() {
+    const modal = document.getElementById('rankings-modal');
+    modal.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+
+    try {
+      const snap = await get(ref(db2, 'users'));
+      if (!snap.exists()) {
+        document.getElementById('full-rankings-list').innerHTML =
+          '<p style="text-align:center;color:#40493d;padding:2rem;">No rankings yet!</p>';
+        return;
+      }
+
+      const volunteers = Object.values(snap.val())
+        .filter(u => u.role === 'volunteer')
+        .sort((a, b) => (b.points || 0) - (a.points || 0));
+
+      if (volunteers.length === 0) {
+        document.getElementById('full-rankings-list').innerHTML =
+          '<p style="text-align:center;color:#40493d;padding:2rem;">No volunteers yet!</p>';
+        return;
+      }
+
+      const medals = ['🥇','🥈','🥉'];
+      document.getElementById('full-rankings-list').innerHTML = volunteers.map((v, i) => {
+        const init  = (v.name||'V').split(' ').map(n=>n[0]).join('').substring(0,2).toUpperCase();
+        const rank  = medals[i] || (i + 1) + '.';
+        const isTop = i === 0;
+        return `
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:0.875rem 0;border-bottom:1px solid rgba(191,202,186,0.15);${isTop?'background:rgba(13,99,27,0.04);border-radius:0.5rem;padding:0.875rem 0.75rem;':''}">
+          <div style="display:flex;align-items:center;gap:0.75rem;">
+            <span style="font-size:1.25rem;width:2rem;text-align:center;">${rank}</span>
+            <div style="width:2.5rem;height:2.5rem;border-radius:50%;background:${isTop?'#0d631b':'#e9f0e1'};color:${isTop?'#fff':'#0d631b'};display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.875rem;">
+              ${init}
+            </div>
+            <div>
+              <p style="font-weight:700;font-size:0.875rem;color:#171d14;">${v.name||'Volunteer'}</p>
+              <p style="font-size:0.7rem;color:#40493d;">${v.deliveries||0} deliveries · ${(v.points||0) === 0 ? 'No deliveries yet' : ''}</p>
+            </div>
+          </div>
+          <div style="text-align:right;">
+            <p style="font-weight:900;color:#0d631b;font-size:1rem;">${(v.points||0).toLocaleString()}</p>
+            <p style="font-size:0.6rem;text-transform:uppercase;font-weight:700;color:#707a6c;">PTS</p>
+          </div>
+        </div>`;
+      }).join('');
+
+    } catch(err) {
+      document.getElementById('full-rankings-list').innerHTML =
+        '<p style="text-align:center;color:#ba1a1a;padding:2rem;">Error loading rankings</p>';
+    }
+  };
+
+  window.closeRankings = function() {
+    document.getElementById('rankings-modal').style.display = 'none';
+    document.body.style.overflow = '';
+  };
+
+  // Close on backdrop click
+  document.getElementById('rankings-modal').addEventListener('click', function(e) {
+    if (e.target === this) window.closeRankings();
+  });
+</script>
+
+</body>
+</html>

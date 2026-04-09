@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>ZERVO | User Profile</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://www.gstatic.com" rel="preconnect" crossorigin=""/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Manrope:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "outline-variant": "#bfcaba",
+              "inverse-surface": "#2c3228",
+              "surface-container-high": "#e3ebdc",
+              "primary-fixed": "#a3f69c",
+              "outline": "#707a6c",
+              "error": "#ba1a1a",
+              "on-primary-fixed": "#002204",
+              "surface-container-low": "#eff6e7",
+              "tertiary-container": "#4a7b00",
+              "on-tertiary-container": "#d6ffa5",
+              "on-secondary": "#ffffff",
+              "on-primary": "#ffffff",
+              "primary-container": "#2e7d32",
+              "surface-dim": "#d5dcce",
+              "on-primary-container": "#cbffc2",
+              "surface-bright": "#f5fced",
+              "on-secondary-container": "#5e2c00",
+              "tertiary": "#386000",
+              "error-container": "#ffdad6",
+              "on-background": "#171d14",
+              "on-surface": "#171d14",
+              "surface-tint": "#1b6d24",
+              "on-tertiary": "#ffffff",
+              "surface-container": "#e9f0e1",
+              "on-primary-fixed-variant": "#005312",
+              "inverse-on-surface": "#ecf3e4",
+              "surface": "#f5fced",
+              "secondary-container": "#fc820c",
+              "tertiary-fixed-dim": "#9ed75b",
+              "on-secondary-fixed-variant": "#723600",
+              "on-tertiary-fixed": "#000000",
+              "surface-container-lowest": "#ffffff",
+              "surface-variant": "#dee5d6",
+              "surface-container-highest": "#dee5d6",
+              "tertiary-fixed": "#b9f474",
+              "secondary-fixed": "#ffdcc6",
+              "on-tertiary-fixed-variant": "#2e4f00",
+              "on-error": "#ffffff",
+              "secondary-fixed-dim": "#ffb786",
+              "primary-fixed-dim": "#88d982",
+              "background": "#f5fced",
+              "primary": "#0d631b",
+              "on-surface-variant": "#40493d",
+              "secondary": "#964900",
+              "on-secondary-fixed": "#311300",
+              "on-error-container": "#93000a",
+              "inverse-primary": "#88d982"
+            },
+            fontFamily: {
+              "headline": ["Plus Jakarta Sans"],
+              "body": ["Manrope"],
+              "label": ["Manrope"]
+            },
+            borderRadius: {"DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+      body { font-family: 'Manrope', sans-serif; }
+      .font-plus-jakarta-sans { font-family: 'Plus Jakarta Sans', sans-serif; }
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      }
+    </style>
+</head>
+<body class="bg-surface text-on-surface min-h-screen">
+<!-- Top Navigation Bar -->
+<nav class="fixed top-0 w-full z-50 bg-[#f5fced]/80 dark:bg-stone-900/80 backdrop-blur-xl flex justify-between items-center px-6 py-4 w-full">
+<div class="flex items-center gap-2">
+<a href="index.html" class="font-headline font-extrabold text-2xl text-primary tracking-tight">ZERVO</a>
+</div>
+<div class="flex items-center gap-4">
+<!-- Notifications -->
+<div class="relative zervo-notifications" id="notif-wrapper">
+    <button class="zervo-notifications-btn p-2 rounded-full hover:bg-primary/5 text-primary transition-colors active:scale-95 duration-200 relative flex items-center justify-center">
+        <span class="material-symbols-outlined pointer-events-none">notifications</span>
+        <span class="zervo-notifications-badge hidden absolute top-0.5 right-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-error text-[10px] font-bold text-white shadow-sm pointer-events-none"></span>
+    </button>
+    <!-- Dropdown Panel -->
+    <div class="zervo-notifications-dropdown hidden absolute right-0 mt-2 sm:w-[360px] w-screen max-w-[calc(100vw-2rem)] bg-surface dark:bg-zinc-900 rounded-2xl shadow-xl border border-outline-variant/20 overflow-hidden z-50 transform origin-top transition-all duration-200 opacity-0 scale-95 pointer-events-none flex flex-col">
+        <div class="p-4 border-b border-outline-variant/10 flex justify-between items-center w-full bg-surface-container-lowest/50 backdrop-blur-sm">
+            <h3 class="font-headline font-bold text-on-surface">Notifications</h3>
+            <button class="zervo-notifications-mark-all text-xs font-bold text-primary hover:text-green-800 transition-colors cursor-pointer">Mark as read</button>
+        </div>
+        <div class="zervo-notifications-list w-full max-h-[60vh] overflow-y-auto"></div>
+        <div class="zervo-notifications-empty hidden py-12 px-6 flex flex-col items-center justify-center text-center gap-3 w-full border-t border-outline-variant/5">
+            <div class="w-16 h-16 rounded-full bg-surface-variant/20 flex items-center justify-center text-primary">
+                <span class="material-symbols-outlined text-3xl">notifications_off</span>
+            </div>
+            <p class="text-on-surface-variant font-medium text-sm">No notifications yet</p>
+        </div>
+    </div>
+</div>
+<!-- Profile Dropdown -->
+<div class="relative zervo-profile-wrapper">
+    <button class="zervo-profile-rtrig flex items-center justify-center rounded-full ring-2 ring-transparent hover:ring-primary/20 focus:ring-primary/40 focus:outline-none transition-all duration-200 active:scale-95 overflow-hidden" aria-haspopup="true" aria-expanded="false">
+        <div class="w-10 h-10 border-2 border-primary/20 rounded-full overflow-hidden">
+            <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuCcePFs6Gd6MkAjvPopZNI1Mu_OSSdyZFpyvAWW7BUi7t3NirADmQGsth7JorkTMM5PuRcv2iRAl1BlN6iFqS47pebGbp-Stt-snlXyGFHpOcuzmltRj7SwYuc8bIwgXOaQRzm74LHwkXjxUU1MKA7DDnEb30I0xYOO9mATGgeyq27iNwOHr_jIlEP6X10s1J2BjYFbuhpgmWn7YI0iiuyvR6uh8V7JQ5DpwpylHUAeAjxSIyQZRdieCW7P_gbAue9IyE6HRa8DuKU" alt="Sarah Miller's avatar" class="w-full h-full object-cover" />
+        </div>
+    </button>
+    <!-- Dropdown Panel -->
+    <div class="zervo-profile-rdown absolute right-0 mt-3 w-64 bg-surface-container-lowest rounded-2xl shadow-xl border border-outline-variant/20 z-50 overflow-hidden transform origin-top-right transition-all duration-200 ease-out flex flex-col opacity-0 scale-95 -translate-y-2 invisible pointer-events-none">
+        <div class="p-4 border-b border-outline-variant/10 bg-surface-container-low/50">
+            <p class="font-headline font-bold text-on-surface text-sm truncate">Sarah Miller</p>
+            <p class="text-on-surface-variant font-medium text-xs mt-0.5 truncate">sarah@greenvalley.org</p>
+        </div>
+        <div class="py-2">
+            <a href="editprofile.html" class="flex items-center w-full px-4 py-2.5 text-sm font-medium text-on-surface hover:bg-surface-variant/40 hover:text-primary transition-colors focus:outline-none" role="menuitem">
+                <span class="material-symbols-outlined mr-3 text-[20px]">person</span> View Profile
+            </a>
+        </div>
+        <div class="py-2 border-t border-outline-variant/10">
+            <a href="login.html" class="flex items-center w-full px-4 py-2.5 text-sm font-bold text-error hover:bg-error/10 transition-colors focus:outline-none" role="menuitem">
+                <span class="material-symbols-outlined mr-3 text-[20px]">logout</span> Logout
+            </a>
+        </div>
+    </div>
+</div>
+</div>
+</nav>
+
+<div class="flex pt-20">
+<!-- SideNavBar -->
+<!-- Main Content Area -->
+<main class="overflow-y-auto px-6 py-12 md:px-12 bg-surface w-full min-h-screen">
+<div class="max-w-4xl mx-auto space-y-12">
+<!-- Editorial Header -->
+<div class="space-y-2">
+<h1 class="text-5xl font-headline font-extrabold text-on-surface tracking-tight leading-tight">
+                        Profile Settings
+                    </h1>
+</div>
+<!-- Bento-style Profile Card -->
+<div class="bg-surface-container-low rounded-xl p-8 md:p-12 shadow-[0px_20px_40px_rgba(23,29,20,0.06)] border border-outline-variant/10">
+<!-- Section 1: Personal Information -->
+<div class="space-y-8 mb-16">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-full bg-primary-container flex items-center justify-center text-on-primary-container">
+<span class="material-symbols-outlined">person</span>
+</div>
+<h2 class="text-2xl font-headline font-bold text-on-surface">Personal Information</h2>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-8">
+<div class="space-y-2">
+<label class="text-xs font-bold uppercase tracking-widest text-on-surface-variant ml-4">Full Name</label>
+<div class="flex items-center justify-between bg-surface-container-lowest p-4 rounded-full group"><input class="w-full bg-transparent border-none focus:ring-0 text-on-surface font-medium ml-2" id="input-name" placeholder="Full Name" type="text" value=""/></div>
+</div>
+<div class="space-y-2">
+<label class="text-xs font-bold uppercase tracking-widest text-on-surface-variant ml-4">Mobile Number</label>
+<div class="flex items-center justify-between bg-surface-container-lowest p-4 rounded-full group"><input class="w-full bg-transparent border-none focus:ring-0 text-on-surface font-medium ml-2" id="input-phone" placeholder="Mobile Number" type="tel" value=""/></div>
+</div>
+<div class="space-y-2 md:col-span-2">
+<label class="text-xs font-bold uppercase tracking-widest text-on-surface-variant ml-4">Email Address</label>
+<div class="flex items-center justify-between bg-surface-container-lowest p-4 rounded-full group"><input class="w-full bg-transparent border-none focus:ring-0 text-on-surface font-medium ml-2" id="input-email" placeholder="Email Address" type="email" value=""/></div>
+</div>
+</div>
+</div>
+<!-- Section 2: Security -->
+<div class="space-y-8">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-full bg-secondary-container flex items-center justify-center text-on-secondary-container">
+<span class="material-symbols-outlined">lock</span>
+</div>
+<h2 class="text-2xl font-headline font-bold text-on-surface">Security</h2>
+</div>
+<div class="space-y-2">
+<label class="text-xs font-bold uppercase tracking-widest text-on-surface-variant ml-4">Password</label>
+<div class="flex items-center justify-between bg-surface-container-lowest p-6 rounded-xl group transition-all">
+<div class="flex flex-col">
+<span class="text-on-surface font-medium">Last updated 3 months ago</span>
+<span class="text-on-surface-variant text-sm">Use at least 12 characters and a symbol</span>
+</div>
+<button class="bg-surface-container-high text-on-surface px-6 py-2 rounded-full font-bold hover:bg-surface-container-highest transition-colors" onclick="document.getElementById('passwordModal').classList.remove('hidden')">
+                                    Change Password
+                                </button>
+</div>
+</div>
+</div>
+<div class="mt-16 flex flex-col md:flex-row items-center justify-end gap-4 pt-8 border-t border-outline-variant/20">
+<a href="role-selection.html" id="cancel-profile-edit" class="w-full md:w-auto px-8 py-4 text-on-surface font-bold hover:bg-surface-container-high rounded-full transition-colors flex items-center justify-center order-2 md:order-1">
+                            Cancel
+                        </a>
+<button class="w-full md:w-auto px-12 py-4 bg-primary text-white font-bold rounded-full shadow-lg hover:scale-[1.02] active:scale-95 transition-all order-1 md:order-2">
+                            Save Changes
+                        </button>
+</div>
+</div>
+<!-- Subtle Decorative Element -->
+</div>
+</main>
+</div>
+
+<script type="module">
+    import { initializeApp }    from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import { getAuth, onAuthStateChanged,
+             updatePassword,
+             EmailAuthProvider,
+             reauthenticateWithCredential } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+    import { getDatabase, ref,
+             get, update }      from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyB8ynZXXUV7MJLbZNd42CEUpZDRWXoHM30",
+      authDomain: "zervo-9585.firebaseapp.com",
+      projectId: "zervo-9585",
+      storageBucket: "zervo-9585.firebasestorage.app",
+      messagingSenderId: "892339796416",
+      appId: "1:892339796416:web:f9810482ae1c40be6b3025",
+      databaseURL: "https://zervo-9585-default-rtdb.firebaseio.com"
+    };
+
+    const app  = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db   = getDatabase(app);
+
+    let currentUser = null;
+
+    // ── Show toast message ─────────────────────────────────────────
+    function showToast(msg, isError = false) {
+      let toast = document.getElementById('profile-toast');
+      if (!toast) {
+        toast = document.createElement('div');
+        toast.id = 'profile-toast';
+        toast.style.cssText = 'position:fixed;top:80px;left:50%;transform:translateX(-50%);z-index:9999;padding:12px 24px;border-radius:999px;font-weight:700;font-size:14px;transition:all 0.3s;';
+        document.body.appendChild(toast);
+      }
+      toast.textContent = msg;
+      toast.style.background = isError ? '#ba1a1a' : '#0d631b';
+      toast.style.color = '#fff';
+      toast.style.display = 'block';
+      setTimeout(() => toast.style.display = 'none', 3000);
+    }
+
+    // ── Load user data into form ───────────────────────────────────
+    onAuthStateChanged(auth, async (user) => {
+      if (!user) { window.location.href = 'login.html'; return; }
+      currentUser = user;
+
+      try {
+        const snapshot = await get(ref(db, 'users/' + user.uid));
+        const data = snapshot.exists() ? snapshot.val() : {};
+
+        const name  = data.name  || user.displayName || '';
+        const email = data.email || user.email        || '';
+        const phone = data.phone || '';
+
+        // Fill form fields
+        const nameEl  = document.getElementById('input-name');
+        const emailEl = document.getElementById('input-email');
+        const phoneEl = document.getElementById('input-phone');
+        if (nameEl)  nameEl.value  = name;
+        if (emailEl) emailEl.value = email;
+        if (phoneEl) phoneEl.value = phone;
+
+      } catch (err) {
+        console.error('Error loading profile data:', err);
+      }
+    });
+
+    // ── Save Changes button ────────────────────────────────────────
+    document.addEventListener('DOMContentLoaded', () => {
+
+      // Cancel button redirect
+      const urlParams = new URLSearchParams(window.location.search);
+      const fromPage  = urlParams.get('from');
+      const cancelBtn = document.getElementById('cancel-profile-edit');
+      if (fromPage && cancelBtn) cancelBtn.href = fromPage;
+
+      // Save button
+      const saveBtn = document.querySelector('button.bg-primary.text-white.font-bold.rounded-full.shadow-lg');
+      if (saveBtn) {
+        saveBtn.addEventListener('click', async () => {
+          if (!currentUser) return;
+
+          const name  = document.getElementById('input-name')?.value.trim();
+          const phone = document.getElementById('input-phone')?.value.trim();
+
+          if (!name) { showToast('Name cannot be empty!', true); return; }
+
+          saveBtn.textContent = 'Saving…';
+          saveBtn.disabled = true;
+
+          try {
+            await update(ref(db, 'users/' + currentUser.uid), {
+              name:  name,
+              phone: phone || null,
+            });
+            showToast('✅ Profile saved successfully!');
+          } catch (err) {
+            showToast('Error saving profile. Try again.', true);
+          } finally {
+            saveBtn.textContent = 'Save Changes';
+            saveBtn.disabled = false;
+          }
+        });
+      }
+
+      // ── Toggle password visibility ─────────────────────────────
+    window.togglePwd = function(id, btn) {
+      const input = document.getElementById(id);
+      const icon  = btn.querySelector('.material-symbols-outlined');
+      if (input.type === 'password') {
+        input.type      = 'text';
+        icon.textContent = 'visibility_off';
+      } else {
+        input.type      = 'password';
+        icon.textContent = 'visibility';
+      }
+    };
+
+
+      const passwordModalSaveBtn = document.getElementById('change-password-btn');
+      if (passwordModalSaveBtn) {
+        passwordModalSaveBtn.addEventListener('click', async () => {
+          const oldPass     = document.getElementById('old-password')?.value;
+          const newPass     = document.getElementById('new-password')?.value;
+          const confirmPass = document.getElementById('confirm-password')?.value;
+          const errorEl     = document.getElementById('password-error');
+
+          if (newPass !== confirmPass) {
+            errorEl?.classList.remove('hidden');
+            return;
+          }
+          errorEl?.classList.add('hidden');
+
+          if (!oldPass || !newPass) { showToast('Please fill in all fields', true); return; }
+          if (newPass.length < 8)   { showToast('Password must be at least 8 characters', true); return; }
+
+          passwordModalSaveBtn.textContent = 'Saving…';
+          passwordModalSaveBtn.disabled = true;
+
+          try {
+            // Re-authenticate then change password
+            const credential = EmailAuthProvider.credential(currentUser.email, oldPass);
+            await reauthenticateWithCredential(currentUser, credential);
+            await updatePassword(currentUser, newPass);
+            document.getElementById('passwordModal').classList.add('hidden');
+            showToast('✅ Password changed successfully!');
+          } catch (err) {
+          const msgs = {
+            'auth/wrong-password':       '❌ Old password is incorrect. Please try again.',
+            'auth/invalid-credential':   '❌ Old password is incorrect. Please try again.',
+            'auth/weak-password':        '❌ New password is too weak. Use at least 8 characters.',
+            'auth/too-many-requests':    '❌ Too many attempts. Please wait and try again.',
+          };
+          showToast(msgs[err.code] || 'Error: ' + err.message, true);
+          } finally {
+            passwordModalSaveBtn.textContent = 'Save Changes';
+            passwordModalSaveBtn.disabled = false;
+          }
+        });
+      }
+
+    });
+</script>
+<script src="assets/js/notifications.js"></script>
+<script type="module" src="assets/js/profile.js"></script>
+<!-- Change Password Modal -->
+<div class="fixed inset-0 z-[60] hidden flex items-center justify-center p-4" id="passwordModal">
+<!-- Backdrop -->
+<div class="absolute inset-0 bg-inverse-surface/40 backdrop-blur-sm" onclick="document.getElementById('passwordModal').classList.add('hidden')"></div>
+<!-- Modal Content -->
+<div class="relative bg-surface rounded-xl p-8 md:p-10 w-full max-w-md shadow-xl border border-outline-variant/20">
+<div class="space-y-6">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-full bg-secondary-container flex items-center justify-center text-on-secondary-container">
+<span class="material-symbols-outlined">lock_reset</span>
+</div>
+<h2 class="text-2xl font-headline font-bold text-on-surface">Change Password</h2>
+</div>
+<div class="space-y-4">
+<div class="space-y-2">
+<label class="text-xs font-bold uppercase tracking-widest text-on-surface-variant ml-4">Old Password</label>
+<div class="flex items-center bg-surface-container-low p-4 rounded-full border border-transparent focus-within:border-primary">
+<input class="w-full bg-transparent border-none focus:ring-0 text-on-surface font-medium ml-2" id="old-password" placeholder="••••••••••••" type="password"/>
+<button type="button" onclick="togglePwd('old-password', this)" class="text-outline hover:text-primary transition-colors ml-2"><span class="material-symbols-outlined text-xl">visibility</span></button>
+</div>
+</div>
+<div class="space-y-2">
+<label class="text-xs font-bold uppercase tracking-widest text-on-surface-variant ml-4">New Password</label>
+<div class="flex items-center bg-surface-container-low p-4 rounded-full border border-transparent focus-within:border-primary">
+<input class="w-full bg-transparent border-none focus:ring-0 text-on-surface font-medium ml-2" id="new-password" placeholder="••••••••••••" type="password"/>
+<button type="button" onclick="togglePwd('new-password', this)" class="text-outline hover:text-primary transition-colors ml-2"><span class="material-symbols-outlined text-xl">visibility</span></button>
+</div>
+</div>
+<div class="space-y-2">
+<label class="text-xs font-bold uppercase tracking-widest text-on-surface-variant ml-4">Confirm New Password</label>
+<div class="flex items-center bg-surface-container-low p-4 rounded-full border border-transparent focus-within:border-primary">
+<input class="w-full bg-transparent border-none focus:ring-0 text-on-surface font-medium ml-2" id="confirm-password" placeholder="••••••••••••" type="password"/>
+<button type="button" onclick="togglePwd('confirm-password', this)" class="text-outline hover:text-primary transition-colors ml-2"><span class="material-symbols-outlined text-xl">visibility</span></button>
+</div>
+</div><p class="hidden text-error text-xs font-bold ml-4 mt-1" id="password-error">Passwords do not match</p>
+</div>
+<div class="flex flex-col gap-3 pt-4">
+<button id="change-password-btn" class="w-full py-4 bg-primary text-white font-bold rounded-full shadow-lg hover:bg-primary/90 transition-all">
+                    Save Changes
+                </button>
+<button class="w-full py-4 text-on-surface font-bold hover:bg-surface-container-high rounded-full transition-colors" onclick="document.getElementById('passwordModal').classList.add('hidden')">
+                    Cancel
+                </button>
+</div>
+</div>
+</div>
+</div></body></html>

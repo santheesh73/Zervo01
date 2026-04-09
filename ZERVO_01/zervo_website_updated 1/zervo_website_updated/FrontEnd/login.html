@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <title>Login | ZERVO Organic Editorial</title>
+  <!-- Fonts -->
+  <link href="https://www.gstatic.com" rel="preconnect" crossorigin="" />
+  <link href="https://fonts.googleapis.com" rel="preconnect" />
+  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&amp;family=Manrope:wght@200..800&amp;display=swap"
+    rel="stylesheet" />
+  <!-- Icons -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+    rel="stylesheet" />
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "inverse-on-surface": "#ecf3e4",
+            "primary-container": "#2e7d32",
+            "primary-fixed": "#a3f69c",
+            "surface-dim": "#d5dcce",
+            "surface-container-high": "#e3ebdc",
+            "secondary-fixed-dim": "#ffb786",
+            "surface-container": "#e9f0e1",
+            "outline-variant": "#bfcaba",
+            "inverse-surface": "#2c3228",
+            "on-surface": "#171d14",
+            "on-secondary-fixed-variant": "#723600",
+            "on-secondary": "#ffffff",
+            "on-background": "#171d14",
+            "error": "#ba1a1a",
+            "on-primary": "#ffffff",
+            "secondary-container": "#fc820c",
+            "surface-container-highest": "#dee5d6",
+            "on-tertiary-fixed-variant": "#2e4f00",
+            "on-surface-variant": "#40493d",
+            "on-secondary-fixed": "#311300",
+            "primary-fixed-dim": "#88d982",
+            "on-secondary-container": "#5e2c00",
+            "on-tertiary-container": "#d6ffa5",
+            "on-primary-fixed": "#002204",
+            "tertiary-fixed": "#b9f474",
+            "on-tertiary": "#ffffff",
+            "surface-tint": "#1b6d24",
+            "on-primary-fixed-variant": "#005312",
+            "surface-variant": "#dee5d6",
+            "surface-bright": "#f5fced",
+            "secondary-fixed": "#ffdcc6",
+            "on-tertiary-fixed": "#0f2000",
+            "on-error-container": "#93000a",
+            "surface": "#f5fced",
+            "inverse-primary": "#88d982",
+            "outline": "#707a6c",
+            "surface-container-lowest": "#ffffff",
+            "tertiary-fixed-dim": "#9ed75b",
+            "on-primary-container": "#cbffc2",
+            "surface-container-low": "#eff6e7",
+            "primary": "#0d631b",
+            "tertiary": "#386000",
+            "error-container": "#ffdad6",
+            "background": "#f5fced",
+            "tertiary-container": "#4a7b00",
+            "on-error": "#ffffff",
+            "secondary": "#964900"
+          },
+          fontFamily: {
+            "headline": ["Plus Jakarta Sans"],
+            "body": ["Manrope"],
+            "label": ["Manrope"]
+          },
+          borderRadius: { "DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px" },
+        },
+      },
+    }
+  </script>
+  <style>
+    body {
+      font-family: 'Manrope', sans-serif;
+      background-color: #f5fced;
+    }
+
+    .font-plus-jakarta-sans {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    }
+
+    .organic-gradient {
+      background: radial-gradient(circle at 10% 20%, rgba(203, 255, 194, 0.4) 0%, transparent 40%),
+        radial-gradient(circle at 90% 80%, rgba(252, 130, 12, 0.1) 0%, transparent 40%),
+        radial-gradient(circle at 50% 50%, rgba(13, 99, 27, 0.05) 0%, transparent 100%);
+    }
+
+    .ghost-border {
+      border: 2px solid rgba(112, 122, 108, 0.15);
+    }
+  </style>
+</head>
+
+<body class="bg-surface text-on-surface min-h-screen flex flex-col relative overflow-x-hidden">
+  <!-- Background Organic Shapes -->
+  <div class="fixed inset-0 organic-gradient -z-10"></div>
+  <div class="fixed -top-24 -left-24 w-96 h-96 bg-primary/5 rounded-full blur-3xl"></div>
+  <div class="fixed -bottom-24 -right-24 w-96 h-96 bg-secondary-container/10 rounded-full blur-3xl"></div>
+  <!-- Main Content Canvas -->
+  <main class="flex-grow flex items-center justify-center p-6 sm:p-12">
+    <div
+      class="w-full max-w-md bg-surface-container-lowest rounded-xl p-8 sm:p-10 shadow-[0px_20px_40px_rgba(23,29,20,0.06)] relative overflow-hidden">
+      <!-- Brand Anchor -->
+      <div class="flex flex-col items-center mb-8">
+        <a href="index.html" class="font-headline font-black text-3xl text-primary tracking-tight block">ZERVO</a>
+      </div>
+      <!-- Error Feedback Section -->
+      <div class="mb-6 flex items-center gap-3 p-4 bg-error-container rounded-lg hidden" id="error-message">
+        <span class="material-symbols-outlined text-error text-xl" data-icon="error_outline">error_outline</span>
+        <p class="text-sm font-medium text-on-error-container">Invalid email or password. Please try again.</p>
+      </div>
+      <!-- Login Form -->
+      <form class="space-y-6">
+        <!-- Email Field -->
+        <div class="space-y-2">
+          <label class="block font-headline font-bold text-sm px-1 text-on-surface">Email Address</label>
+          <input
+            class="w-full px-5 py-4 bg-surface-container-highest rounded-lg border-none focus:ring-2 focus:ring-primary focus:bg-surface-container-lowest transition-all placeholder:text-outline/60"
+            id="email-input" placeholder="hello@zervo.organic" type="email" />
+        </div>
+        <!-- Password Field -->
+        <div class="space-y-2">
+          <div class="flex justify-between items-end px-1">
+            <label class="block font-headline font-bold text-sm text-on-surface">Password</label>
+            <span class="text-[10px] font-bold text-outline uppercase tracking-wider">Must be at least 8
+              characters</span>
+          </div>
+          <div class="relative group">
+            <input
+              class="w-full px-5 py-4 bg-surface-container-highest rounded-lg border-none focus:ring-2 focus:ring-primary focus:bg-surface-container-lowest transition-all placeholder:text-outline/60"
+              id="password-input" placeholder="••••••••" type="password" />
+            <button
+              class="absolute right-4 top-1/2 -translate-y-1/2 text-on-surface-variant hover:text-primary transition-colors"
+              id="toggle-password"
+              type="button">
+              <span class="material-symbols-outlined" id="eye-icon" data-icon="visibility">visibility</span>
+            </button>
+          </div>
+          <div class="flex justify-end px-1">
+            <a class="text-xs font-bold text-primary hover:underline transition-all" href="forgot-password.html">Forgot Password?</a>
+          </div>
+        </div>
+        <!-- Remember Me & Actions -->
+        <!-- Submit Button -->
+        <button
+          class="w-full py-4 bg-primary text-on-primary font-headline font-bold text-lg rounded-xl shadow-lg hover:shadow-primary/20 active:scale-[0.98] transition-all relative overflow-hidden group"
+          id="login-button" type="submit">
+          <span class="relative z-10">Login</span>
+          <div
+            class="absolute inset-0 bg-gradient-to-tr from-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity">
+          </div>
+        </button>
+        <!-- Divider -->
+        <!-- Social Login -->
+      </form>
+      <!-- Sign Up Prompt -->
+      <div class="mt-8 text-center">
+        <p class="text-sm text-on-surface-variant font-medium">
+          Don't have an account?
+          <a class="text-primary font-bold hover:underline underline-offset-4 ml-1" href="signup.html">Sign up</a>
+        </p>
+      </div>
+    </div>
+  </main>
+  <script type="module">
+    // ── Firebase Setup ──────────────────────────────────────────────
+    import { initializeApp }                          from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import { getAuth, signInWithEmailAndPassword,
+             signOut,
+             onAuthStateChanged }                     from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+    // 🔴 PASTE YOUR FIREBASE CONFIG HERE
+    const firebaseConfig = {
+      apiKey: "AIzaSyB8ynZXXUV7MJLbZNd42CEUpZDRWXoHM30",
+      authDomain: "zervo-9585.firebaseapp.com",
+      projectId: "zervo-9585",
+      storageBucket: "zervo-9585.firebasestorage.app",
+      messagingSenderId: "892339796416",
+      appId: "1:892339796416:web:f9810482ae1c40be6b3025"
+    };
+
+    const app  = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    // ── DOM Elements (unchanged IDs from your design) ───────────────
+    const errorMessage  = document.getElementById('error-message');
+    const loginButton   = document.getElementById('login-button');
+    const emailInput    = document.getElementById('email-input');
+    const passwordInput = document.getElementById('password-input');
+    const loginForm     = document.querySelector('form');
+
+    const hideError = () => errorMessage.classList.add('hidden');
+    const showError = (msg) => {
+      errorMessage.querySelector('p').textContent = msg;
+      errorMessage.classList.remove('hidden');
+    };
+
+    // ── Login Form Submit → Firebase ────────────────────────────────
+    loginForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      hideError();
+
+      const email    = emailInput.value.trim();
+      const password = passwordInput.value;
+
+      if (!email || !password) {
+        showError('Please enter your email and password.');
+        return;
+      }
+
+      // Show loading state on button
+      loginButton.disabled = true;
+      loginButton.querySelector('span').textContent = 'Signing in…';
+
+      try {
+        await signInWithEmailAndPassword(auth, email, password);
+        // ✅ Success → go to role selection
+        window.location.href = 'role-selection.html';
+      } catch (err) {
+        loginButton.disabled = false;
+        loginButton.querySelector('span').textContent = 'Login';
+        const messages = {
+          'auth/invalid-credential':      'Invalid email or password. Please try again.',
+          'auth/user-not-found':          'No account found with this email.',
+          'auth/wrong-password':          'Incorrect password. Please try again.',
+          'auth/too-many-requests':       'Too many attempts. Please wait and try again.',
+          'auth/network-request-failed':  'Network error. Check your internet connection.',
+        };
+        showError(messages[err.code] || 'Something went wrong. Please try again.');
+      }
+    });
+
+    // ── Hide error when user types ──────────────────────────────────
+    emailInput.addEventListener('input', hideError);
+    passwordInput.addEventListener('input', hideError);
+
+    // ── Toggle password visibility (your existing logic, unchanged) ─
+    const togglePassword = document.getElementById('toggle-password');
+    const eyeIcon        = document.getElementById('eye-icon');
+    togglePassword.addEventListener('click', () => {
+      const isPassword = passwordInput.getAttribute('type') === 'password';
+      passwordInput.setAttribute('type', isPassword ? 'text' : 'password');
+      eyeIcon.textContent = isPassword ? 'visibility_off' : 'visibility';
+    });
+
+    // ── Sign out when login page opens (so user can log in fresh) ──
+    signOut(auth).catch(() => {});
+
+    // ── If already logged in, skip login page (only after manual nav) ──
+    // Removed auto-redirect so user can always access login page
+  </script>
+</body>
+
+</html>
